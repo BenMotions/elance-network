@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elance Network</title>
+<style>
+  :root {
+    --bg: #f3f2ef;
+    --card: #ffffff;
+    --ink: #141414;
+    --ink2: #555;
+    --ink3: #888;
+    --border: #e2e2e0;
+    --accent: #141414;
+    --accent-text: #fff;
+    --green-bg: #dcfce7;
+    --green: #15803d;
+    --red-bg: #fef2f2;
+    --red: #b91c1c;
+    --amber-bg: #fef3c7;
+    --amber: #92400e;
+    --blue-bg: #e0e7ff;
+    --blue: #3730a3;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 16px 48px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 32px 28px;
+    width: 100%;
+    max-width: 460px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.06);
+  }
+
+  @media (max-width: 480px) {
+    body { padding: 12px 12px 40px; }
+    .card { padding: 24px 20px; border-radius: 14px; }
+  }
+
+  /* ── Logo ──────────────────────────── */
+  .logo { font-size: 17px; font-weight: 700; letter-spacing: -0.3px; margin-bottom: 24px; }
+  .logo span { color: var(--ink3); font-weight: 400; }
+
+  /* ── Typography ────────────────────── */
+  h2 { font-size: 21px; font-weight: 650; line-height: 1.25; }
+  .subtitle { color: var(--ink2); font-size: 14.5px; line-height: 1.55; margin-top: 6px; }
+
+  /* ── Form elements ─────────────────── */
+  .field { margin-bottom: 16px; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 360px) { .field-row { grid-template-columns: 1fr; } }
+
+  label { display: block; font-size: 13px; font-weight: 550; color: var(--ink2); margin-bottom: 5px; }
+  label .optional { font-weight: 400; color: var(--ink3); font-size: 12px; }
+
+  input, select {
+    width: 100%;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 11px 13px;
+    font-size: 15px;
+    color: var(--ink);
+    background: #fff;
+    outline: none;
+    transition: border-color 0.15s;
+    font-family: inherit;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='7' viewBox='0 0 12 7' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 5.5L11 1' stroke='%23888' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 13px center;
+    padding-right: 36px;
+  }
+
+  input:focus, select:focus { border-color: var(--ink); }
+  input::placeholder { color: #bbb; }
+
+  /* ── Buttons ───────────────────────── */
+  .btn {
+    width: 100%;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 13px 20px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.12s, transform 0.1s;
+    font-family: inherit;
+    text-align: center;
+    display: inline-block;
+  }
+
+  .btn:active { transform: scale(0.985); }
+  .btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+  .btn-primary { background: var(--accent); color: var(--accent-text); }
+  .btn-primary:hover:not(:disabled) { opacity: 0.88; }
+  .btn-secondary { background: transparent; color: var(--ink); border: 1.5px solid var(--border); }
+  .btn-secondary:hover:not(:disabled) { background: var(--bg); }
+
+  /* ── Plan cards ────────────────────── */
+  .plan-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0 4px; }
+  @media (max-width: 360px) { .plan-cards { grid-template-columns: 1fr; } }
+
+  .plan-card {
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 16px;
+    cursor: pointer;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    position: relative;
+    text-align: center;
+  }
+
+  .plan-card:hover { border-color: #ccc; }
+  .plan-card.selected { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink); }
+  .plan-card .plan-name { font-size: 16px; font-weight: 650; margin-bottom: 4px; }
+  .plan-card .plan-desc { font-size: 12.5px; color: var(--ink3); line-height: 1.45; }
+
+  .plan-card .plan-check {
+    position: absolute; top: 10px; right: 10px;
+    width: 20px; height: 20px; border-radius: 50%;
+    border: 2px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+  }
+
+  .plan-card.selected .plan-check { background: var(--ink); border-color: var(--ink); }
+  .plan-card.selected .plan-check::after { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #fff; }
+
+  /* ── Badges ────────────────────────── */
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; }
+  .badge-active   { background: var(--green-bg); color: var(--green); }
+  .badge-inactive { background: var(--red-bg);   color: var(--red); }
+  .badge-normal   { background: var(--blue-bg);  color: var(--blue); }
+  .badge-business { background: var(--amber-bg); color: var(--amber); }
+
+  /* ── Stat grid ─────────────────────── */
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
+  .stat-box { background: var(--bg); border-radius: 10px; padding: 16px; }
+  .stat-label { font-size: 12px; color: var(--ink3); margin-bottom: 3px; }
+  .stat-value { font-size: 26px; font-weight: 700; line-height: 1; }
+  .stat-sub   { font-size: 12px; color: var(--ink3); margin-top: 4px; }
+
+  /* ── Info rows ─────────────────────── */
+  .info-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f0f0f0; font-size: 14px; }
+  .info-row:last-child { border-bottom: none; }
+  .info-label { color: var(--ink3); }
+  .info-value { font-weight: 530; text-align: right; max-width: 55%; }
+
+  /* ── Banners ───────────────────────── */
+  .banner { border-radius: 10px; padding: 14px 16px; margin-bottom: 20px; font-size: 14px; line-height: 1.5; }
+  .banner strong { display: block; font-size: 13px; margin-bottom: 2px; }
+  .banner-green { background: var(--green-bg); border: 1px solid #bbf7d0; color: #166534; }
+  .banner-red   { background: var(--red-bg);   border: 1px solid #fecaca; color: #991b1b; }
+  .banner-amber { background: var(--amber-bg); border: 1px solid #fde68a; color: var(--amber); }
+
+  /* ── Misc ──────────────────────────── */
+  .error { background: var(--red-bg); border: 1px solid #fecaca; border-radius: var(--radius-sm); padding: 12px 14px; font-size: 14px; color: var(--red); margin-top: 14px; display: none; }
+  .success-box { background: var(--green-bg); border: 1px solid #bbf7d0; border-radius: 10px; padding: 20px; text-align: center; margin: 20px 0; }
+  .link { color: var(--ink3); font-size: 13px; text-align: center; cursor: pointer; margin-top: 18px; text-decoration: underline; text-underline-offset: 2px; }
+  .link:hover { color: var(--ink2); }
+  .divider { height: 1px; background: #f0f0f0; margin: 20px 0; }
+  .section-gap { margin-top: 20px; }
+  .view { display: none; }
+  .view.active { display: block; }
+  .target-section { background: var(--bg); border-radius: var(--radius); padding: 16px; margin-top: 16px; }
+  .target-section .target-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+  .target-section .target-desc { font-size: 12.5px; color: var(--ink3); margin-bottom: 14px; line-height: 1.4; }
+  .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.6s linear infinite; vertical-align: middle; margin-right: 6px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="logo">Elance <span>Network</span></div>
+
+  <!-- ═══════════════════════════════════ -->
+  <!-- VIEW: LOADING                       -->
+  <!-- ═══════════════════════════════════ -->
+  <div class="view active" id="view-loading">
+    <p style="text-align:center;color:var(--ink3);padding:40px 0;">Loading...</p>
+  </div>
+
+  <!-- ═══════════════════════════════════ -->
+  <!-- VIEW: PLAN SELECTION                -->
+  <!-- ═══════════════════════════════════ -->
+  <div class="view" id="view-plans">
+    <h2>Join the network</h2>
+    <p class="subtitle">Get verified business contacts delivered to your phone twice a week.</p>
+
+    <div class="plan-cards">
+      <div class="plan-card" onclick="selectPlan('normal')" id="plan-normal">
+        <div class="plan-check"></div>
+        <div class="plan-name">Normal</div>
+        <div class="plan-desc">10 random contacts per drop from the full network</div>
+      </div>
+      <div class="plan-card" onclick="selectPlan('business')" id="plan-business">
+        <div class="plan-check"></div>
+        <div class="plan-name">Business</div>
+        <div class="plan-desc">Contacts filtered by your target industries</div>
+      </div>
+    </div>
+
+    <button class="btn btn-primary section-gap" id="btn-continue-plan" onclick="goToForm()" disabled>Continue</button>
+
+    <div class="divider"></div>
+    <p class="link" onclick="showView('view-login')">Already a member? Log in</p>
+  </div>
+
+  <!-- ═══════════════════════════════════ -->
+  <!-- VIEW: SIGNUP FORM                   -->
+  <!-- ═══════════════════════════════════ -->
+  <div class="view" id="view-form">
+    <h2>Create your account</h2>
+    <p class="subtitle">Fill in your details, then complete payment to activate.</p>
+
+    <div class="section-gap">
+      <div class="field-row">
+        <div class="field">
+          <label>First name</label>
+          <input type="text" id="f-first" placeholder="Tunde">
+        </div>
+        <div class="field">
+          <label>Last name</label>
+          <input type="text" id="f-last" placeholder="Adebayo">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Username <span class="optional">(your WhatsApp display name)</span></label>
+        <input type="text" id="f-username" placeholder="TundeMotors">
+      </div>
+
+      <div class="field">
+        <label>WhatsApp number</label>
+        <input type="tel" id="f-whatsapp" placeholder="+234 801 234 5678">
+      </div>
+
+      <div class="field">
+        <label>Email address</label>
+        <input type="email" id="f-email" placeholder="you@example.com">
+      </div>
+
+      <div class="field">
+        <label>Your niche</label>
+        <select id="f-niche"><option value="">Select your industry</option></select>
+      </div>
+
+      <div id="target-section" style="display:none;">
+        <div class="target-section">
+          <div class="target-title">Target industries</div>
+          <div class="target-desc">Choose which industries you want to receive contacts from.</div>
+          <div class="field">
+            <label>Target 1 <span class="optional">(required)</span></label>
+            <select id="f-target1"><option value="">Select an industry</option></select>
+          </div>
+          <div class="field">
+            <label>Target 2 <span class="optional">(optional)</span></label>
+            <select id="f-target2"><option value="">None</option></select>
+          </div>
+          <div class="field">
+            <label>Target 3 <span class="optional">(optional)</span></label>
+            <select id="f-target3"><option value="">None</option></select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn btn-primary section-gap" id="btn-signup" onclick="handleSignup()">Continue to payment</button>
+    <div class="error" id="form-error"></div>
+    <p class="link" onclick="showView('view-plans')">Back to plans</p>
+  </div>
+
+  <!-- ═══════════════════════════════════ -->
+  <!-- VIEW: PAYMENT SUCCESS               -->
+  <!-- ═══════════════════════════════════ -->
+  <div class="view" id="view-success">
+    <h2>Payment confirmed</h2>
+    <p class="subtitle">Your account is now active. Save your login code — you will need it to access your dashboard.</p>
+
+    <div class="success-box">
+      <div style="font-size:12px;color:var(--green);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Your login code</div>
+      <div id="success-code" style="font-size:36px;font-weight:700;letter-spacing:6px;color:var(--ink);">--------</div>
+    </div>
+
+    <p style="font-size:13px;color:var(--ink3);text-align:center;line-height:1.5;margin-bottom:20px;">Screenshot this page or write down your code. Use it with your email to log in anytime.</p>
+
+    <button class="btn btn-primary" onclick="showView('view-login')">Go to login</button>
+  </div>
+
+  <!-- ═══════════════════════════════════ -->
+  <!-- VIEW: LOGIN                         -->
+  <!-- ═══════════════════════════════════ -->
+  <div class="view" id="view-login">
+    <h2>Member portal</h2>
+    <p class="subtitle">Enter your email and the login code shown after payment.</p>
+
+    <div class="section-gap">
+      <div class="field">
+        <label>Email address</label>
+        <input type="email" id="l-email" placeholder="you@example.com" autocomplete="email">
+      </div>
+      <div class="field">
+        <label>Login code</label>
+        <input type="text" id="l-code" placeholder="e.g. A3BK9QTZ" maxlength="8"
+               style="letter-spacing:3px;text-transform:uppercase;font-weight:600;">
+      </div>
+    </div>
+
+    <button class="btn btn-primary" id="btn-login" onclick="doLogin()">Log in</button>
+    <div class="error" id="login-error"></div>
+
+    <p class="link" onclick="showView('view-forgot')">Forgot your code?</p>
+    <div class="divider"></div>
+    <p class="link" onclick="showView('view-plans')">New here? Create an account</p>
+  </div>
+
+  <!-- ═══════════════════════════════════ -->
+  <!-- VIEW: FORGOT CODE                   -->
+  <!-- ═══════════════════════════════════ -->
+  <div class="view" id="view-forgot">
+    <h2>Reset login code</h2>
+    <p class="subtitle">Enter your email and we will send a new code to your inbox.</p>
+
+    <div class="section-gap">
+      <div class="field">
+        <label>Email address</label>
+        <input type="email" id="fg-email" placeholder="you@example.com">
+      </div>
+    </div>
+
+    <button class="btn btn-primary" id="btn-forgot" onclick="doForgotCode()">Send new code</button>
+    <div class="error" id="forgot-error"></div>
+    <div id="forgot-success" style="display:none;" class="success-box">
+      <p style="font-size:14px;color:var(--green);">If this email is registered, a new code has been sent. Check your inbox.</p>
+    </div>
+
+    <p class="link" onclick="showView('view-login')">Back to login</p>
+  </div>
+
+  <!-- ═══════════════════════════════════ -->
+  <!-- VIEW: DASHBOARD                     -->
+  <!-- ═══════════════════════════════════ -->
+  <div class="view" id="view-dashboard">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+      <div>
+        <h2 id="d-name">Hi there</h2>
+        <p style="font-size:13px;color:var(--ink3);margin-top:2px;" id="d-email"></p>
+      </div>
+      <span class="badge" id="d-plan-badge"></span>
+    </div>
+
+    <div style="margin:14px 0 16px;">
+      <span class="badge" id="d-status-badge"></span>
+    </div>
+
+    <div id="d-banner"></div>
+
+    <div class="stat-grid">
+      <div class="stat-box">
+        <div class="stat-label">Days remaining</div>
+        <div class="stat-value" id="d-days">—</div>
+        <div class="stat-sub" id="d-expires"></div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Contacts received</div>
+        <div class="stat-value" id="d-contacts">—</div>
+        <div class="stat-sub">Total so far</div>
+      </div>
+    </div>
+
+    <div id="d-download-section"></div>
+
+    <div>
+      <div class="info-row">
+        <span class="info-label">Your niche</span>
+        <span class="info-value" id="d-niche">—</span>
+      </div>
+      <div class="info-row" id="d-targets-row" style="display:none;">
+        <span class="info-label">Receiving from</span>
+        <span class="info-value" id="d-targets">—</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Last drop</span>
+        <span class="info-value" id="d-last-drop">—</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Next drop</span>
+        <span class="info-value" id="d-next-drop">—</span>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div id="d-upgrade-section"></div>
+
+    <button class="btn btn-secondary" onclick="goResubscribe()" id="btn-renew">Renew subscription</button>
+    <p class="link" onclick="doLogout()">Log out</p>
+  </div>
+
+  <!-- ═══════════════════════════════════ -->
+  <!-- VIEW: UPGRADE (Normal → Business)   -->
+  <!-- ═══════════════════════════════════ -->
+  <div class="view" id="view-upgrade">
+    <h2>Upgrade to Business</h2>
+    <p class="subtitle">Choose up to 3 target industries to receive filtered contacts.</p>
+
+    <div class="section-gap">
+      <div class="field">
+        <label>Target 1 <span class="optional">(required)</span></label>
+        <select id="u-target1"><option value="">Select an industry</option></select>
+      </div>
+      <div class="field">
+        <label>Target 2 <span class="optional">(optional)</span></label>
+        <select id="u-target2"><option value="">None</option></select>
+      </div>
+      <div class="field">
+        <label>Target 3 <span class="optional">(optional)</span></label>
+        <select id="u-target3"><option value="">None</option></select>
+      </div>
+    </div>
+
+    <button class="btn btn-primary section-gap" id="btn-upgrade" onclick="handleUpgrade()">Continue to payment</button>
+    <div class="error" id="upgrade-error"></div>
+    <p class="link" onclick="showView('view-dashboard')">Back to dashboard</p>
+  </div>
+
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// CONFIG — Replace this with your deployed Apps Script URL
+// ═══════════════════════════════════════════════════════════
+var API_URL = 'https://script.google.com/macros/s/AKfycbwwY4ylbR7X1EJadGkpJQyiETkBuj0qlM65_VPpdgGb5PVnKHqAp_ZS5jHSR5U7zcec/exec';
+
+// ── State ───────────────────────────────────────────────
+var selectedPlan  = '';
+var currentUser   = null;  // stores login email+code for API calls
+var dashboardData = null;
+
+// ── Init ────────────────────────────────────────────────
+(function init() {
+  // Check if returning from Paystack payment
+  var hash = window.location.hash;
+  if (hash === '#success') {
+    // Payment success — but we need to wait for webhook to process
+    // Show a "verifying" state, then redirect to login
+    showView('view-success');
+    // The login code was shown via the payment flow
+    // We stored it in sessionStorage before redirecting to Paystack
+    var storedCode = sessionStorage.getItem('elance_code');
+    if (storedCode) {
+      document.getElementById('success-code').textContent = storedCode;
+      sessionStorage.removeItem('elance_code');
+    }
+    loadConfig();
+    return;
+  }
+
+  if (hash === '#login') {
+    loadConfig(function() { showView('view-login'); });
+    return;
+  }
+
+  loadConfig(function() { showView('view-plans'); });
+})();
+
+function loadConfig(callback) {
+  apiGet('config', {}, function(data) {
+    if (data.success) {
+      populateNicheDropdowns(data.niches);
+    }
+    if (callback) callback();
+  });
+}
+
+// ── API helpers ─────────────────────────────────────────
+function apiGet(action, params, callback) {
+  params.action = action;
+  var query = Object.keys(params).map(function(k) {
+    return encodeURIComponent(k) + '=' + encodeURIComponent(params[k]);
+  }).join('&');
+
+  fetch(API_URL + '?' + query)
+    .then(function(r) { return r.json(); })
+    .then(callback)
+    .catch(function(err) {
+      console.error('API error:', err);
+      callback({ success: false, reason: 'Connection error. Please try again.' });
+    });
+}
+
+function apiPost(data, callback) {
+  fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify(data)
+  })
+    .then(function(r) { return r.json(); })
+    .then(callback)
+    .catch(function(err) {
+      console.error('API error:', err);
+      callback({ success: false, reason: 'Connection error. Please try again.' });
+    });
+}
+
+// ── Populate dropdowns ──────────────────────────────────
+function populateNicheDropdowns(niches) {
+  var ids = ['f-niche', 'f-target1', 'f-target2', 'f-target3', 'u-target1', 'u-target2', 'u-target3'];
+  ids.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    var placeholder = el.options[0].text;
+    el.innerHTML = '<option value="">' + placeholder + '</option>';
+    niches.forEach(function(n) {
+      var opt = document.createElement('option');
+      opt.value = n;
+      opt.textContent = n;
+      el.appendChild(opt);
+    });
+  });
+}
+
+// ── Plan selection ──────────────────────────────────────
+function selectPlan(plan) {
+  selectedPlan = plan;
+  document.getElementById('plan-normal').classList.toggle('selected', plan === 'normal');
+  document.getElementById('plan-business').classList.toggle('selected', plan === 'business');
+  document.getElementById('btn-continue-plan').disabled = false;
+}
+
+function goToForm() {
+  if (!selectedPlan) return;
+  document.getElementById('target-section').style.display = selectedPlan === 'business' ? 'block' : 'none';
+  showView('view-form');
+}
+
+// ── Signup ──────────────────────────────────────────────
+function handleSignup() {
+  var first    = val('f-first');
+  var last     = val('f-last');
+  var username = val('f-username');
+  var whatsapp = val('f-whatsapp');
+  var email    = val('f-email');
+  var niche    = val('f-niche');
+  var target1  = val('f-target1');
+  var target2  = val('f-target2');
+  var target3  = val('f-target3');
+
+  if (!first || !last || !username || !whatsapp || !email || !niche) {
+    showError('form-error', 'Please fill in all required fields.');
+    return;
+  }
+  if (selectedPlan === 'business' && !target1) {
+    showError('form-error', 'Please select at least one target industry.');
+    return;
+  }
+  if (!email.includes('@')) {
+    showError('form-error', 'Please enter a valid email address.');
+    return;
+  }
+
+  setBtn('btn-signup', true, 'Saving...');
+  hideError('form-error');
+
+  apiPost({
+    action: 'signup',
+    firstName: first,
+    lastName: last,
+    username: username,
+    whatsapp: whatsapp,
+    email: email,
+    ownNiche: niche,
+    target1: selectedPlan === 'business' ? target1 : '',
+    target2: selectedPlan === 'business' ? target2 : '',
+    target3: selectedPlan === 'business' ? target3 : '',
+    plan: selectedPlan
+  }, function(result) {
+    setBtn('btn-signup', false, 'Continue to payment');
+    if (result.success) {
+      // Redirect to Paystack
+      window.location.href = result.paystackUrl;
+    } else {
+      showError('form-error', result.reason || 'Something went wrong.');
+    }
+  });
+}
+
+// ── Login ───────────────────────────────────────────────
+function doLogin() {
+  var email = val('l-email');
+  var code  = document.getElementById('l-code').value.trim().toUpperCase();
+
+  if (!email || !code) {
+    showError('login-error', 'Enter both your email and login code.');
+    return;
+  }
+
+  setBtn('btn-login', true, 'Checking...');
+  hideError('login-error');
+
+  apiGet('login', { email: email, code: code }, function(result) {
+    setBtn('btn-login', false, 'Log in');
+    if (result.success) {
+      currentUser = { email: email, code: code };
+      dashboardData = result.data;
+      renderDashboard(result.data);
+    } else {
+      showError('login-error', result.reason || 'Invalid email or code.');
+    }
+  });
+}
+
+// ── Forgot code ─────────────────────────────────────────
+function doForgotCode() {
+  var email = val('fg-email');
+  if (!email || !email.includes('@')) {
+    showError('forgot-error', 'Please enter a valid email.');
+    return;
+  }
+
+  setBtn('btn-forgot', true, 'Sending...');
+  hideError('forgot-error');
+
+  apiGet('forgot_code', { email: email }, function(result) {
+    setBtn('btn-forgot', false, 'Send new code');
+    if (result.success) {
+      document.getElementById('forgot-success').style.display = 'block';
+    } else {
+      showError('forgot-error', result.reason || 'Something went wrong.');
+    }
+  });
+}
+
+// ── Dashboard ───────────────────────────────────────────
+function renderDashboard(d) {
+  showView('view-dashboard');
+
+  document.getElementById('d-name').textContent     = 'Hi, ' + d.firstName;
+  document.getElementById('d-email').textContent     = d.email;
+  document.getElementById('d-days').textContent      = d.daysLeft;
+  document.getElementById('d-expires').textContent   = 'Expires ' + d.expireDate;
+  document.getElementById('d-contacts').textContent  = d.contactsReceived;
+  document.getElementById('d-niche').textContent     = d.ownNiche;
+  document.getElementById('d-last-drop').textContent = d.lastDrop;
+  document.getElementById('d-next-drop').textContent = d.nextDrop;
+
+  // Status badge
+  var sb       = document.getElementById('d-status-badge');
+  sb.textContent = d.status === 'ACTIVE' ? 'Active' : 'Inactive';
+  sb.className   = 'badge ' + (d.status === 'ACTIVE' ? 'badge-active' : 'badge-inactive');
+
+  // Plan badge
+  var pb       = document.getElementById('d-plan-badge');
+  pb.textContent = d.plan;
+  pb.className   = 'badge ' + (d.plan === 'business' ? 'badge-business' : 'badge-normal');
+
+  // Target niches
+  if (d.plan === 'business') {
+    var targets = [d.target1, d.target2, d.target3].filter(Boolean);
+    if (targets.length > 0) {
+      document.getElementById('d-targets').textContent = targets.join(', ');
+      document.getElementById('d-targets-row').style.display = 'flex';
+    }
+  } else {
+    document.getElementById('d-targets-row').style.display = 'none';
+  }
+
+  // Banner
+  var bannerEl = document.getElementById('d-banner');
+  bannerEl.innerHTML = '';
+
+  if (d.lastDropFallback && d.status === 'ACTIVE') {
+    bannerEl.innerHTML += '<div class="banner banner-amber">' +
+      '<strong>About your last drop</strong>' +
+      'Your target niches are still growing, so we included contacts from across the network to make sure you got a full drop.</div>';
+  }
+
+  if (d.status === 'ACTIVE') {
+    bannerEl.innerHTML += '<div class="banner banner-green">' +
+      '<strong>Next drop — ' + d.nextDrop + '</strong>' +
+      '10 new contacts ready for download</div>';
+  } else {
+    bannerEl.innerHTML += '<div class="banner banner-red">' +
+      '<strong>Your membership expired</strong>' +
+      'You are no longer appearing in contact drops. Renew to become visible again.</div>';
+  }
+
+  // Download button (active members only)
+  var dlSection = document.getElementById('d-download-section');
+  if (d.status === 'ACTIVE' && d.contactsReceived > 0) {
+    dlSection.innerHTML = '<button class="btn btn-primary" onclick="downloadVcf()" id="btn-download">' +
+      'Download latest contacts</button><div style="height:16px;"></div>';
+  } else if (d.status === 'ACTIVE') {
+    dlSection.innerHTML = '<div class="banner banner-amber"><strong>No drops yet</strong>' +
+      'Your first contact drop arrives on ' + d.nextDrop + '.</div>';
+  } else {
+    dlSection.innerHTML = '';
+  }
+
+  // Upgrade button (normal + active only)
+  var upSection = document.getElementById('d-upgrade-section');
+  if (d.plan === 'normal' && d.status === 'ACTIVE') {
+    upSection.innerHTML = '<button class="btn btn-secondary" onclick="goUpgrade()" ' +
+      'style="margin-bottom:12px;">Upgrade to Business</button>';
+  } else {
+    upSection.innerHTML = '';
+  }
+
+  // Renew button visibility
+  document.getElementById('btn-renew').style.display =
+    d.status === 'INACTIVE' ? 'block' : 'none';
+}
+
+// ── VCF Download ────────────────────────────────────────
+function downloadVcf() {
+  if (!currentUser) return;
+
+  setBtn('btn-download', true, 'Generating...');
+
+  apiGet('download_vcf', {
+    email: currentUser.email,
+    code: currentUser.code
+  }, function(result) {
+    setBtn('btn-download', false, 'Download latest contacts');
+    if (result.success) {
+      var blob = new Blob([result.vcfContent], { type: 'text/vcard' });
+      var url  = URL.createObjectURL(blob);
+      var a    = document.createElement('a');
+      a.href     = url;
+      a.download = 'ElanceNetwork-Contacts.vcf';
+      a.click();
+      URL.revokeObjectURL(url);
+    } else {
+      alert(result.reason || 'Could not generate contacts.');
+    }
+  });
+}
+
+// ── Upgrade flow ────────────────────────────────────────
+function goUpgrade() {
+  showView('view-upgrade');
+}
+
+function handleUpgrade() {
+  var t1 = val('u-target1');
+  if (!t1) {
+    showError('upgrade-error', 'Please select at least one target industry.');
+    return;
+  }
+
+  setBtn('btn-upgrade', true, 'Processing...');
+  hideError('upgrade-error');
+
+  apiPost({
+    action: 'upgrade',
+    email: currentUser.email,
+    code: currentUser.code,
+    target1: t1,
+    target2: val('u-target2'),
+    target3: val('u-target3')
+  }, function(result) {
+    setBtn('btn-upgrade', false, 'Continue to payment');
+    if (result.success) {
+      window.location.href = result.paystackUrl;
+    } else {
+      showError('upgrade-error', result.reason || 'Something went wrong.');
+    }
+  });
+}
+
+// ── Navigation helpers ──────────────────────────────────
+function showView(id) {
+  document.querySelectorAll('.view').forEach(function(v) { v.classList.remove('active'); });
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function doLogout() {
+  currentUser = null;
+  dashboardData = null;
+  document.getElementById('l-email').value = '';
+  document.getElementById('l-code').value = '';
+  showView('view-plans');
+}
+
+function goResubscribe() { showView('view-plans'); }
+
+// ── Utility helpers ─────────────────────────────────────
+function val(id) { return document.getElementById(id).value.trim(); }
+function showError(id, msg) { var e = document.getElementById(id); e.textContent = msg; e.style.display = 'block'; }
+function hideError(id) { document.getElementById(id).style.display = 'none'; }
+function setBtn(id, disabled, text) {
+  var b = document.getElementById(id);
+  if (!b) return;
+  b.disabled = disabled;
+  b.innerHTML = disabled ? '<span class="spinner"></span>' + text : text;
+}
+
+// Enter key
+document.addEventListener('keydown', function(e) {
+  if (e.key !== 'Enter') return;
+  var active = document.querySelector('.view.active');
+  if (!active) return;
+  if (active.id === 'view-login')  doLogin();
+  if (active.id === 'view-form')   handleSignup();
+  if (active.id === 'view-forgot') doForgotCode();
+});
+</script>
+</body>
+</html>
