@@ -475,6 +475,11 @@ var dashboardData = null;
       window.history.replaceState(null, '', window.location.pathname);
     }
     loadConfig();
+    // Start polling for activation code
+    var savedEmail = sessionStorage.getItem('elance_email');
+    if (savedEmail) {
+      pollForActivation(savedEmail);
+    }
     return;
   }
 
@@ -599,6 +604,8 @@ function handleSignup() {
   }, function(result) {
     setBtn('btn-signup', false, 'Continue to payment');
     if (result.success) {
+      // Save email so we can poll for activation after payment
+      sessionStorage.setItem('elance_email', email.toLowerCase().trim());
       // Redirect to Paystack
       window.location.href = result.paystackUrl;
     } else {
@@ -788,6 +795,37 @@ function handleUpgrade() {
       showError('upgrade-error', result.reason || 'Something went wrong.');
     }
   });
+}
+
+// ── Poll for activation code after payment ─────────────
+function pollForActivation(email) {
+  var attempts = 0;
+  var maxAttempts = 20; // Try for ~60 seconds (every 3 seconds)
+
+  var codeEl = document.getElementById('success-code');
+  codeEl.textContent = 'Verifying...';
+
+  var pollInterval = setInterval(function() {
+    attempts++;
+
+    apiGet('check_activation', { email: email }, function(result) {
+      if (result.activated) {
+        clearInterval(pollInterval);
+        codeEl.textContent = result.loginCode;
+        codeEl.style.letterSpacing = '6px';
+        sessionStorage.removeItem('elance_email');
+      } else if (attempts >= maxAttempts) {
+        clearInterval(pollInterval);
+        codeEl.textContent = '--------';
+        // Show a message telling them to use forgot code
+        var note = document.querySelector('#view-success .success-box');
+        if (note) {
+          note.innerHTML += '<p style="font-size:13px;color:#92400e;margin-top:12px;">Taking longer than expected. Tap "Go to login" and use "Forgot your code?" to get your code via email.</p>';
+        }
+        sessionStorage.removeItem('elance_email');
+      }
+    });
+  }, 3000);
 }
 
 // ── Navigation helpers ──────────────────────────────────
