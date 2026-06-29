@@ -461,24 +461,24 @@ var dashboardData = null;
 
 // ── Init ────────────────────────────────────────────────
 (function init() {
-  // Check if returning from Paystack payment
-  var hash = window.location.hash;
-  if (hash === '#success') {
-    // Payment success — but we need to wait for webhook to process
-    // Show a "verifying" state, then redirect to login
+  // Paystack redirects back with ?trxref=xxx&reference=xxx#success
+  // The hash might be #success or the URL might contain 'success' in various ways
+  var fullUrl  = window.location.href;
+  var hash     = window.location.hash;
+  var hasSuccess = hash.indexOf('success') > -1 || fullUrl.indexOf('#success') > -1;
+  var hasLogin   = hash.indexOf('login') > -1;
+
+  if (hasSuccess) {
     showView('view-success');
-    // The login code was shown via the payment flow
-    // We stored it in sessionStorage before redirecting to Paystack
-    var storedCode = sessionStorage.getItem('elance_code');
-    if (storedCode) {
-      document.getElementById('success-code').textContent = storedCode;
-      sessionStorage.removeItem('elance_code');
+    // Clean the URL so refreshing doesn't re-trigger
+    if (window.history.replaceState) {
+      window.history.replaceState(null, '', window.location.pathname);
     }
     loadConfig();
     return;
   }
 
-  if (hash === '#login') {
+  if (hasLogin) {
     loadConfig(function() { showView('view-login'); });
     return;
   }
