@@ -790,6 +790,7 @@ function handleUpgrade() {
   }, function(result) {
     setBtn('btn-upgrade', false, 'Continue to payment');
     if (result.success) {
+      sessionStorage.setItem('elance_email', currentUser.email.toLowerCase().trim());
       window.location.href = result.paystackUrl;
     } else {
       showError('upgrade-error', result.reason || 'Something went wrong.');
