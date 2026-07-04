@@ -10,216 +10,285 @@
 @font-face{font-family:'TWK Everett';src:url('fonts/TWKEverett-Bold.otf') format('opentype');font-weight:700}
 @font-face{font-family:'Dogica';src:url('fonts/dogica.otf') format('opentype');font-weight:400}
 
-:root{--bg:#f0f0f0;--ink:#141414;--ink2:#555;--ink3:#999;--border:#d0d0d0;--lime:#C8FF00;--lime-dk:#b3e600;--green:#15803d;--red:#dc2626;--red-bg:#fef2f2;--red-bdr:#fca5a5;--amber:#92400e;--amber-bg:#fef3c7;--amber-bdr:#fde68a;--gray:#9ca3af;--r:8px;--font:'TWK Everett',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+/* EXACT COLOR PALETTE FROM FIGMA SVG EXPORTS */
+:root{
+  --bg:#F4F4F4;
+  --ink:#141519;
+  --checkbox-bg:#222529;
+  --gray-header:#89919F;
+  --lime:#C8FF00;
+  --green-active:#64D105;
+  --red:#FF0000;
+  --amber-border:#CFB420;
+  --target-bg:#E5E5E5;
+  --plan-body-bg:#EEEEEE;
+  --normal-header-bg:#EBEBEB;
+  --font:'TWK Everett',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--font);background:var(--bg);color:var(--ink);min-height:100vh;display:flex;flex-direction:column;align-items:center;-webkit-font-smoothing:antialiased}
-.app{width:100%;max-width:460px;min-height:100vh;padding:24px 20px 40px}
-@media(min-width:461px){body{padding:24px 0}.app{min-height:auto;border-radius:20px;padding:32px 28px 40px}}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);min-height:100vh;display:flex;justify-content:center;-webkit-font-smoothing:antialiased}
+.app{width:100%;max-width:393px;min-height:100vh;background:var(--bg)}
+@media(min-width:394px){body{padding:24px 0}}
 
-.logo{margin-bottom:28px;height:29px}
-h2{font-size:28px;font-weight:700;line-height:1.15;letter-spacing:-.5px}
-.sub{color:var(--ink3);font-size:15px;line-height:1.5;margin-top:8px}
-.fcard{border:1.5px solid var(--border);border-radius:var(--r);padding:20px 18px;margin-top:20px}
-.field{margin-bottom:16px}.field:last-child{margin-bottom:0}
-.frow{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-label{display:block;font-size:14px;font-weight:500;margin-bottom:6px}
-label .h{font-weight:400;color:var(--ink3);font-size:13px}
-input,select{width:100%;border:1.5px solid var(--border);border-radius:6px;padding:12px 14px;font-size:15px;color:var(--ink);background:#fff;outline:none;transition:border-color .15s;font-family:var(--font);-webkit-appearance:none;appearance:none}
-select{background-image:url("data:image/svg+xml,%3Csvg width='12' height='7' viewBox='0 0 12 7' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 5.5L11 1' stroke='%23666' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:38px}
-input:focus,select:focus{border-color:var(--ink)}input::placeholder{color:#aaa}
+.content{padding:24px 24px 40px}
 
-.btn{width:100%;border:none;border-radius:6px;padding:15px 20px;font-size:15px;font-weight:700;cursor:pointer;transition:opacity .12s,transform .1s;font-family:var(--font);text-align:left;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:20px}
-.btn:active{transform:scale(.985)}.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
-.btn-l{background:var(--lime);color:var(--ink)}.btn-l:hover:not(:disabled){background:var(--lime-dk)}
-.btn-o{background:transparent;color:var(--ink);border:1.5px solid var(--border)}.btn-o:hover:not(:disabled){background:#e8e8e8}
+.logo-row{display:flex;align-items:center;gap:8px;margin-bottom:32px}
 
-.pc{border:1.5px solid var(--border);border-radius:var(--r);margin-top:16px;overflow:hidden;cursor:pointer;transition:border-color .15s}
-.pc:hover{border-color:#aaa}.pc.sel{border-color:var(--ink)}
-.pc-h{background:var(--gray);color:#fff;padding:14px 18px;font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:space-between}
-.pc-b{padding:18px}
-.pc-f{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;font-size:14.5px;line-height:1.4}.pc-f:last-child{margin-bottom:0}
-.chk{width:20px;height:20px;flex-shrink:0;margin-top:1px}
-.pc-cta{background:var(--lime);padding:14px 18px;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:background .12s}
-.pc-cta:hover{background:var(--lime-dk)}
+h2{font-size:32px;font-weight:700;line-height:1.1;letter-spacing:-0.5px;color:var(--ink)}
+.sub{color:var(--gray-header);font-size:16px;line-height:1.4;margin-top:12px;font-weight:400}
 
-.tsec{border:1.5px solid var(--border);border-radius:var(--r);padding:18px;margin-top:16px}
-.tt{font-size:15px;font-weight:700;margin-bottom:4px}.td{font-size:13px;color:var(--ink3);margin-bottom:16px;line-height:1.45}
+/* Card wrapper - sharp corners, gray border */
+.fcard{border:1px solid var(--gray-header);padding:16px;margin-top:24px}
+.field{margin-bottom:16px}
+.field:last-child{margin-bottom:0}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 
+label{display:block;font-size:15px;font-weight:500;margin-bottom:8px;color:var(--ink)}
+label .h{font-weight:400;color:var(--gray-header);font-size:14px}
+
+input,select{
+  width:100%;height:39px;border:1px solid var(--ink);padding:0 14px;font-size:15px;
+  color:var(--ink);background:#fff;outline:none;font-family:var(--font);
+  -webkit-appearance:none;appearance:none;border-radius:0;
+}
+input::placeholder{color:#B0B0B0}
+select{cursor:pointer}
+
+/* Custom select wrapper for exact chevron */
+.select-wrap{position:relative}
+.select-wrap select{padding-right:36px}
+.select-wrap::after{
+  content:'';position:absolute;right:16px;top:50%;
+  width:10px;height:6px;
+  background:transparent;
+  border-right:1.5px solid var(--ink);
+  border-bottom:1.5px solid var(--ink);
+  transform:translateY(-70%) rotate(45deg);
+  pointer-events:none;
+}
+
+/* Buttons - sharp corners always */
+.btn{
+  width:100%;height:47px;border:1px solid var(--ink);padding:0 16px;font-size:16px;font-weight:700;
+  cursor:pointer;font-family:var(--font);display:flex;align-items:center;justify-content:space-between;
+  margin-top:24px;border-radius:0;background:transparent;color:var(--ink);
+}
+.btn:active{opacity:0.85}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn-lime{background:var(--lime)}
+.btn-outline{background:transparent}
+
+/* Plan cards */
+.pc{border:1px solid var(--ink);margin-top:24px;overflow:hidden;cursor:pointer}
+.pc-h{background:var(--gray-header);color:#fff;height:47px;padding:0 16px;font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--ink)}
+.pc-h.normal-h{background:var(--normal-header-bg);color:var(--ink)}
+.pc-b{background:var(--plan-body-bg);padding:24px 16px}
+.pc-f{display:flex;align-items:center;gap:12px;margin-bottom:24px;font-size:16px;line-height:1.35;color:var(--ink)}
+.pc-f:last-child{margin-bottom:0}
+.pc-f .chk{width:16px;height:16px;background:var(--checkbox-bg);flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.pc-cta{background:var(--lime);height:47px;padding:0 16px;font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:space-between;cursor:pointer;border-top:1px solid var(--ink)}
+
+/* Target section inside form */
+.tsec{background:var(--target-bg);border:1px solid var(--gray-header);padding:16px;margin-top:24px}
+.tt{font-size:16px;font-weight:500;margin-bottom:4px;color:var(--ink)}
+.td{font-size:14px;color:var(--gray-header);margin-bottom:16px;line-height:1.4}
+
+/* Dashboard header */
 .dh{display:flex;justify-content:space-between;align-items:flex-start}
-.dn{font-size:28px;font-weight:700;letter-spacing:-.5px}.de{font-size:13px;color:var(--ink3);margin-top:2px}
-.db{display:flex;gap:0;margin-top:12px}
-.bp{padding:6px 14px;font-size:13px;font-weight:500;border:1.5px solid var(--border);border-radius:4px 0 0 4px;background:#fff}
-.bs{padding:6px 14px;font-size:13px;font-weight:700;border-radius:0 4px 4px 0;text-transform:uppercase;letter-spacing:.3px}
-.bs-a{background:var(--green);color:#fff}.bs-i{background:var(--red);color:#fff}
+.dn{font-size:32px;font-weight:700;letter-spacing:-0.5px;color:var(--ink)}
+.de{font-size:15px;color:var(--gray-header);margin-top:4px}
+.person-circle{width:40px;height:40px;border-radius:20px;background:var(--lime);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 
-.dbr{background:var(--gray);border-radius:var(--r);padding:16px 18px;margin-top:24px;color:#fff}
-.dbr strong{font-size:14px;font-weight:700;display:block}.dbr span{font-size:13px;opacity:.85}
+/* Badge combo */
+.db{display:flex;margin-top:24px}
+.bp{height:31px;padding:0 16px;font-size:15px;font-weight:400;border:1px solid var(--gray-header);background:transparent;color:var(--gray-header);display:flex;align-items:center}
+.bs{height:32px;padding:0 16px;font-size:15px;font-weight:700;display:flex;align-items:center;color:#fff}
+.bs-a{background:var(--green-active)}
+.bs-i{background:var(--red)}
+.bp.bp-dark{border-color:var(--ink);color:var(--ink)}
 
-.sg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
-.sb{border-left:3px solid var(--lime);padding:14px 16px;background:#fff;border-radius:0 var(--r) var(--r) 0}
-.sl{font-size:12px;color:var(--ink3);font-weight:500;margin-bottom:4px}
-.sv{font-size:32px;font-weight:700;line-height:1}.ss{font-size:12px;color:var(--ink3);margin-top:4px}
+/* Next drop banner */
+.dbr{background:var(--gray-header);border:1px solid var(--ink);height:55px;padding:0 16px;margin-top:24px;color:#fff;display:flex;flex-direction:column;align-items:flex-start;justify-content:center}
+.dbr strong{font-size:15px;font-weight:500}
+.dbr span{font-size:14px;opacity:0.9}
 
-.is{border-left:3px solid var(--lime);margin-top:16px;background:#fff;border-radius:0 var(--r) var(--r) 0;padding:4px 0}
-.ir{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;font-size:14px}
-.il{color:var(--ink3)}.iv{font-weight:500;text-align:right;max-width:55%}
+/* Stat grid */
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px}
+.sb{border-left:3px solid var(--lime);padding:8px 0 8px 16px}
+.sb.sb-red{border-left-color:var(--red)}
+.sl{font-size:14px;color:var(--gray-header);margin-bottom:2px}
+.sv{font-size:40px;font-weight:700;line-height:1;color:var(--ink)}
+.ss{font-size:14px;color:var(--gray-header);margin-top:4px}
 
-.ban{border-radius:var(--r);padding:14px 16px;margin-top:16px;font-size:14px;line-height:1.5;border:1.5px solid}
-.ban strong{display:block;font-size:13px;font-weight:700;margin-bottom:2px}
-.ban-a{background:var(--amber-bg);border-color:var(--amber-bdr);color:var(--amber)}
-.ban-r{background:var(--red-bg);border-color:var(--red-bdr);color:var(--red)}
+/* Info section */
+.is{border-left:3px solid var(--lime);margin-top:24px;padding:8px 0}
+.ir{display:flex;justify-content:space-between;align-items:flex-start;padding:12px 0 12px 16px;font-size:16px}
+.il{color:var(--gray-header)}
+.iv{font-weight:500;text-align:right;max-width:60%;color:var(--ink)}
 
-.err{border:1.5px solid var(--red-bdr);border-radius:var(--r);padding:12px 14px;font-size:14px;color:var(--red);margin-top:14px;display:none}
-.scard{border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;margin-top:24px;text-align:center}
-.stop{padding:32px 28px 24px;background:#fff}
-.cbox{border:1.5px solid var(--border);border-radius:6px;padding:16px;margin:20px auto;max-width:300px}
-.clbl{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink3);margin-bottom:8px}
-.cval{font-family:'Dogica',monospace;font-size:22px;letter-spacing:6px;color:var(--ink)}
-.sbot{background:#fff;padding:14px 28px 20px;border-top:2px dashed var(--border)}
-.sbot p{font-size:13px;color:var(--red);font-weight:500;line-height:1.5}
+/* Banners - amber / red */
+.ban{padding:16px;margin-top:24px;font-size:14px;line-height:1.4;border:1px solid}
+.ban strong{display:block;font-size:15px;font-weight:500;margin-bottom:4px}
+.ban-a{background:#fff;border-color:var(--amber-border);color:var(--amber-border)}
+.ban-a strong{color:var(--amber-border)}
+.ban-a .body-txt{color:var(--ink)}
+.ban-r{background:#fff;border-color:var(--red);color:var(--red)}
+.ban-r strong{color:var(--red)}
+.ban-r .body-txt{color:var(--ink)}
 
-.lnk{color:var(--ink3);font-size:14px;text-align:center;cursor:pointer;margin-top:18px;text-decoration:underline;text-underline-offset:3px;display:block}
-.lnk:hover{color:var(--ink2)}.lnk-d{color:var(--ink);font-weight:500}
-.view{display:none}.view.active{display:block}
-.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(0,0,0,.15);border-top-color:var(--ink);border-radius:50%;animation:spin .6s linear infinite;margin-right:8px}
+/* Error */
+.err{border:1px solid var(--red);padding:12px 16px;font-size:14px;color:var(--red);margin-top:16px;display:none}
+
+/* Success card */
+.scard{border:1px solid var(--ink);margin-top:24px;text-align:center;padding:24px 24px 32px}
+.scard .logo-row{justify-content:center;margin-bottom:24px}
+.badge-icon{width:55px;height:55px;margin:0 auto 24px}
+.stitle{font-size:24px;font-weight:700;margin-bottom:16px;color:var(--ink)}
+.ssub{font-size:15px;color:var(--gray-header);line-height:1.4;margin-bottom:24px}
+.cbox{border:1px solid var(--ink);padding:20px;max-width:270px;margin:0 auto}
+.clbl{font-size:13px;font-weight:500;letter-spacing:0.5px;color:var(--ink);margin-bottom:12px}
+.cval{font-family:'Dogica',monospace;font-size:26px;letter-spacing:4px;color:var(--ink)}
+.warning-txt{font-size:13px;color:var(--red);line-height:1.5;margin-top:20px;text-align:center;padding-top:16px;border-top:1px solid var(--gray-header)}
+
+/* Links */
+.lnk{color:var(--gray-header);font-size:15px;text-align:center;cursor:pointer;margin-top:24px;text-decoration:underline;display:block}
+.lnk-d{color:var(--ink);font-weight:500;text-decoration:underline}
+
+/* Utility */
+.view{display:none}
+.view.active{display:block}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(0,0,0,.2);border-top-color:var(--ink);border-radius:50%;animation:spin .6s linear infinite;margin-right:8px}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.ld{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 0}
+.ld{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:120px 0}
 .ld svg{animation:pulse 1.5s ease-in-out infinite}
+
+.arrow-icon{width:19px;height:14px;flex-shrink:0}
 </style>
 </head>
 <body>
 <div class="app">
-
-<!-- SVG defs (hidden, referenced by use) -->
-<svg style="display:none">
-<defs>
-<g id="arrow"><path d="M19 8.09V5.34H0v2.75h19zM13.55 2.66h-2.75V0h2.75v2.66zM13.59 13.5h-2.75v-2.7h2.75v2.7zM16.3 5.34h-2.75V2.66h2.75v2.68zM16.34 10.8h-2.75V8.09h2.75v2.71z" fill="black"/></g>
-<g id="chk"><rect width="20" height="20" rx="3" fill="#C8FF00"/><path d="M6 10l3 3 5-6" stroke="#141414" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g>
-<g id="person"><rect width="40" height="40" rx="20" fill="#C8FF00"/><path d="M15.56 20h1.11v1.11h6.67V20h1.11v-1.11h1.11V12.22h-1.11v-1.11h-1.11V10h-6.67v1.11h-1.11v1.11h-1.11v6.67h1.11V20zm1.11-5.56h1.11v-1.11h1.11v-1.11h2.22v1.11h1.11v1.11h1.11v2.22h-1.11v1.11h-1.11v1.11h-2.22v-1.11h-1.11v-1.11h-1.11v-2.22z" fill="black"/><path d="M27.78 24.44v-1.11h-1.11v-1.11H13.33v1.11h-1.11v1.11h-1.11V30h2.22v-3.33h1.11v-1.11h1.11v-1.11h8.89v1.11h1.11v1.11h1.11V30h2.22v-5.56h-1.11z" fill="black"/></g>
+<svg style="display:none"><defs>
+<g id="arrow"><path d="M19 8.09V5.34H0v2.75h19zM13.55 2.66h-2.75V0h2.75v2.66zM13.59 13.5h-2.75v-2.7h2.75v2.7zM16.3 5.34h-2.75V2.66h2.75v2.68zM16.34 10.8h-2.75V8.09h2.75v2.71z" fill="currentColor"/></g>
+<g id="chk"><path d="M2 9L7 14L16 4" stroke="#C8FF00" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g>
+<g id="person"><path d="M15.56 20h1.11v1.11h6.67V20h1.11v-1.11h1.11V12.22h-1.11v-1.11h-1.11V10h-6.67v1.11h-1.11v1.11h-1.11v6.67h1.11V20zm1.11-5.56h1.11v-1.11h1.11v-1.11h2.22v1.11h1.11v1.11h1.11v2.22h-1.11v1.11h-1.11v1.11h-2.22v-1.11h-1.11v-1.11h-1.11v-2.22z" fill="black"/><path d="M27.78 24.44v-1.11h-1.11v-1.11H13.33v1.11h-1.11v1.11h-1.11V30h2.22v-3.33h1.11v-1.11h1.11v-1.11h8.89v1.11h1.11v1.11h1.11V30h2.22v-5.56h-1.11z" fill="black"/></g>
 <g id="badge"><path d="M27.6.94l7.17 6.18 9.46-.13.43-.01.07.43 1.52 9.34 7.33 5.98.33.27-.22.37-4.84 8.13 1.77 9.29.08.42-.41.14-8.93 3.12-4.62 8.25-.21.38-.4-.15-8.85-3.35-8.84 3.35-.4.15-.21-.38-4.62-8.25-8.93-3.12-.41-.14.08-.42 1.77-9.29L.87 23.38l-.22-.37.33-.27 7.33-5.98 1.52-9.34.07-.43.43.01 9.46.13L26.95.94l.33-.28.28.28z" fill="#C8FF00" stroke="black"/><path d="M20.2 27.7l4.29 4.5 10.51-9.01" stroke="black" stroke-width="3.86" stroke-linecap="round" stroke-linejoin="round"/></g>
-<g id="dl"><path d="M3.75 0h11.25v1.875H3.75V0zm0 3.75h1.875V1.875H3.75V3.75zm11.25 0H13.125V1.875H15V3.75zm0 7.5h1.875v-1.875H15v-1.875h1.875V5.625H15V3.75h-1.875v1.875h-1.875V3.75H9.375v1.875H7.5V3.75H5.625v1.875H3.75v1.875H5.625v1.875H3.75v1.875H5.625V13.125h1.875V15h3.75v-1.875h1.875V15H15v-1.875h1.875V11.25H15zm-1.875-1.875h-1.875v1.875h-1.875V13.125H7.5V11.25H5.625V9.375H7.5V7.5h1.875V5.625h1.875V7.5h1.875v1.875h1.875v1.875h-1.875z" fill="black"/></g>
-</defs>
-</svg>
+</defs></svg>
 
 <!-- LOADING -->
-<div class="view active" id="view-loading">
-<div class="ld"><svg width="29" height="29" viewBox="0 0 29 29"><rect width="29" height="29" fill="#C8FF00"/><path d="M7.75 17.05v2.2c-.39.13-.75.04-1.1-.07C4.77 18.61 3.5 16.86 3.44 14.74c-.02-.73-.02-1.46 0-2.2.07-2.77 2.35-4.58 4.6-4.51 1.35.04 2.71-.02 4.06.01.5.01.87-.13 1.21-.52 1-.14 2.04-1.25 3.07-2.36.15-.16.29-.33.46-.46.85-.63 2.01-.16 2.18.88.03.21.03.43.03.65 0 2.36-.05 4.72.02 7.08.05 1.62-1.21 2.64-2.58 2.58-1.49-.07-2.98-.01-4.47-.01-.27 0-.53 0-.85 0v5.15c.51-.56.91-.99 1.31-1.42.28-.3.55-.6.83-.9.47-.5 1.04-.75 1.74-.74 1.46.02 2.93.01 4.39 0 1.7 0 2.54-.83 2.57-2.54 0-.46 0-.92 0-1.38 0-1.56-.4-2.15-1.9-2.7v-2.23c.51-.14.98.03 1.42.22 1.76.76 2.7 2.12 2.83 4.02.06.89.05 1.79 0 2.68-.14 2.67-2.47 4.39-4.46 4.29-1.41-.07-2.82.01-4.23-.02-.51-.01-.86.17-1.19.54-1.01 1.14-2.04 2.25-3.08 3.36-.23.25-.53.5-.84.6-.81.27-1.65-.31-1.79-1.19-.03-.21-.02-.43-.02-.65 0-2.31.06-4.61-.02-6.91-.05-1.56 1.15-2.65 2.57-2.59 1.52.06 3.04.02 4.56.01.26 0 .53-.02.83-.04v-5c-.23.2-.39.32-.53.46-.52.55-1.03 1.11-1.54 1.68-.48.54-1.06.81-1.79.8-1.41-.02-2.82-.01-4.23 0-.3 0-.6 0-.89.05-1.1.2-1.82 1.03-1.87 2.15-.02.7-.02 1.41 0 2.11.02 1.12.51 1.8 1.57 2.21.1.04.2.09.34.15z" fill="black"/></svg></div>
-</div>
+<div class="view active" id="view-loading"><div class="ld"><svg width="40" height="40" viewBox="0 0 29 29"><rect width="29" height="29" fill="#C8FF00"/><path d="M7.75 17.05v2.2c-.39.13-.75.04-1.1-.07C4.77 18.61 3.5 16.86 3.44 14.74c-.02-.73-.02-1.46 0-2.2.07-2.77 2.35-4.58 4.6-4.51 1.35.04 2.71-.02 4.06.01.5.01.87-.13 1.21-.52 1-.14 2.04-1.25 3.07-2.36.15-.16.29-.33.46-.46.85-.63 2.01-.16 2.18.88.03.21.03.43.03.65 0 2.36-.05 4.72.02 7.08.05 1.62-1.21 2.64-2.58 2.58-1.49-.07-2.98-.01-4.47-.01-.27 0-.53 0-.85 0v5.15c.51-.56.91-.99 1.31-1.42.28-.3.55-.6.83-.9.47-.5 1.04-.75 1.74-.74 1.46.02 2.93.01 4.39 0 1.7 0 2.54-.83 2.57-2.54 0-.46 0-.92 0-1.38 0-1.56-.4-2.15-1.9-2.7v-2.23c.51-.14.98.03 1.42.22 1.76.76 2.7 2.12 2.83 4.02.06.89.05 1.79 0 2.68-.14 2.67-2.47 4.39-4.46 4.29-1.41-.07-2.82.01-4.23-.02-.51-.01-.86.17-1.19.54-1.01 1.14-2.04 2.25-3.08 3.36-.23.25-.53.5-.84.6-.81.27-1.65-.31-1.79-1.19-.03-.21-.02-.43-.02-.65 0-2.31.06-4.61-.02-6.91-.05-1.56 1.15-2.65 2.57-2.59 1.52.06 3.04.02 4.56.01.26 0 .53-.02.83-.04v-5c-.23.2-.39.32-.53.46-.52.55-1.03 1.11-1.54 1.68-.48.54-1.06.81-1.79.8-1.41-.02-2.82-.01-4.23 0-.3 0-.6 0-.89.05-1.1.2-1.82 1.03-1.87 2.15-.02.7-.02 1.41 0 2.11.02 1.12.51 1.8 1.57 2.21.1.04.2.09.34.15z" fill="black"/></svg></div></div>
 
 <!-- PLANS -->
 <div class="view" id="view-plans">
-<div class="logo" id="logo-plans"></div>
+<div class="content">
+<div class="logo-row" id="logo-plans"></div>
 <h2>Join the network</h2>
 <p class="sub">Get verified business contacts delivered to your phone twice a week.</p>
-<div class="pc" onclick="selectPlan('business')" id="plan-business">
+
+<div class="pc" onclick="selectPlan('business')">
 <div class="pc-h">Business Plan (₦2,000) <svg width="24" height="24" viewBox="0 0 24 24"><polygon points="12,2 15,9 22,9 16.5,14 18.5,21 12,17 5.5,21 7.5,14 2,9 9,9" fill="#C8FF00"/></svg></div>
 <div class="pc-b">
-<div class="pc-f"><svg class="chk" viewBox="0 0 20 20"><use href="#chk"/></svg>Everything in Normal Plan</div>
-<div class="pc-f"><svg class="chk" viewBox="0 0 20 20"><use href="#chk"/></svg>Contacts filtered to your target industries</div>
-<div class="pc-f"><svg class="chk" viewBox="0 0 20 20"><use href="#chk"/></svg>Choose up to 3 industries you want to sell to</div>
+<div class="pc-f"><span class="chk"><svg width="12" height="12" viewBox="0 0 18 18"><use href="#chk"/></svg></span>Everything in Normal Plan</div>
+<div class="pc-f"><span class="chk"><svg width="12" height="12" viewBox="0 0 18 18"><use href="#chk"/></svg></span>Contacts filtered to your target industries</div>
+<div class="pc-f"><span class="chk"><svg width="12" height="12" viewBox="0 0 18 18"><use href="#chk"/></svg></span>Choose up to 3 industries you want to sell to</div>
 </div>
-<div class="pc-cta">Choose This Plan <svg width="19" height="14" viewBox="0 0 19 14"><use href="#arrow"/></svg></div>
+<div class="pc-cta">Choose This Plan <svg class="arrow-icon" viewBox="0 0 19 14"><use href="#arrow"/></svg></div>
 </div>
-<div class="pc" onclick="selectPlan('normal')" id="plan-normal">
-<div class="pc-h">Normal Plan (₦1,000)</div>
+
+<div class="pc" onclick="selectPlan('normal')">
+<div class="pc-h normal-h">Normal Plan (₦1,000)</div>
 <div class="pc-b">
-<div class="pc-f"><svg class="chk" viewBox="0 0 20 20"><use href="#chk"/></svg>Fresh business contacts every week</div>
-<div class="pc-f"><svg class="chk" viewBox="0 0 20 20"><use href="#chk"/></svg>Delivered to your phone as saved contacts</div>
-<div class="pc-f"><svg class="chk" viewBox="0 0 20 20"><use href="#chk"/></svg>New people every drop; no repeats</div>
+<div class="pc-f"><span class="chk"><svg width="12" height="12" viewBox="0 0 18 18"><use href="#chk"/></svg></span>Fresh business contacts every week</div>
+<div class="pc-f"><span class="chk"><svg width="12" height="12" viewBox="0 0 18 18"><use href="#chk"/></svg></span>Delivered to your phone as saved contacts</div>
+<div class="pc-f"><span class="chk"><svg width="12" height="12" viewBox="0 0 18 18"><use href="#chk"/></svg></span>New people every drop; no repeats</div>
 </div>
-<div class="pc-cta">Choose This Plan <svg width="19" height="14" viewBox="0 0 19 14"><use href="#arrow"/></svg></div>
+<div class="pc-cta">Choose This Plan <svg class="arrow-icon" viewBox="0 0 19 14"><use href="#arrow"/></svg></div>
 </div>
-<p class="lnk" style="margin-top:24px">Already a member? <span class="lnk-d" onclick="showView('view-login')">Log in</span></p>
+
+<p class="lnk">Already a member? <span class="lnk-d" onclick="showView('view-login')">Log in</span></p>
+</div>
 </div>
 
 <!-- SIGNUP FORM -->
 <div class="view" id="view-form">
-<div class="logo" id="logo-form"></div>
+<div class="content">
+<div class="logo-row" id="logo-form"></div>
 <h2>Create your account</h2>
 <p class="sub">Fill in your details, then complete payment to activate.</p>
 <div class="fcard">
-<div class="frow">
-<div class="field"><label>First name</label><input type="text" id="f-first" placeholder="Tunde"></div>
-<div class="field"><label>Last name</label><input type="text" id="f-last" placeholder="Adebayo"></div>
-</div>
+<div class="frow"><div class="field"><label>First name</label><input type="text" id="f-first" placeholder="Tunde"></div><div class="field"><label>Last name</label><input type="text" id="f-last" placeholder="Adebayo"></div></div>
 <div class="field"><label>Username <span class="h">(your WhatsApp display name)</span></label><input type="text" id="f-username" placeholder="TundeMotors"></div>
 <div class="field"><label>WhatsApp number</label><input type="tel" id="f-whatsapp" placeholder="+234 801 234 5678"></div>
 <div class="field"><label>Email address</label><input type="email" id="f-email" placeholder="you@example.com"></div>
-<div class="field"><label>Your niche</label><select id="f-niche"><option value="">Select your industry</option></select></div>
-<div id="target-section" style="display:none">
-<div class="tsec">
-<div class="tt">Target industries</div>
-<div class="td">Choose which industries you want to receive contacts from.</div>
-<div class="field"><label>Target 1 <span class="h">(required)</span></label><select id="f-target1"><option value="">Select your industry</option></select></div>
-<div class="field"><label>Target 2 <span class="h">(optional)</span></label><select id="f-target2"><option value="">None</option></select></div>
-<div class="field"><label>Target 3 <span class="h">(optional)</span></label><select id="f-target3"><option value="">None</option></select></div>
+<div class="field"><label>Your niche</label><div class="select-wrap"><select id="f-niche"><option value="">Select your industry</option></select></div></div>
+<div id="target-section" style="display:none"><div class="tsec">
+<div class="tt">Target industries</div><div class="td">Choose which industries you want to receive contacts from.</div>
+<div class="field"><label>Target 1 <span class="h">(required)</span></label><div class="select-wrap"><select id="f-target1"><option value="">Select your industry</option></select></div></div>
+<div class="field"><label>Target 2 <span class="h">(optional)</span></label><div class="select-wrap"><select id="f-target2"><option value="">None</option></select></div></div>
+<div class="field"><label>Target 3 <span class="h">(optional)</span></label><div class="select-wrap"><select id="f-target3"><option value="">None</option></select></div></div>
+</div></div>
 </div>
-</div>
-</div>
-<button class="btn btn-l" id="btn-signup" onclick="handleSignup()">Continue to pay <svg width="19" height="14" viewBox="0 0 19 14"><use href="#arrow"/></svg></button>
+<button class="btn btn-lime" id="btn-signup" onclick="handleSignup()">Continue to pay <svg class="arrow-icon" viewBox="0 0 19 14"><use href="#arrow"/></svg></button>
 <div class="err" id="form-error"></div>
 <p class="lnk lnk-d" onclick="showView('view-plans')">Back to plans</p>
+</div>
 </div>
 
 <!-- SUCCESS -->
 <div class="view" id="view-success">
+<div class="content">
 <div class="scard">
-<div class="stop">
-<div style="margin-bottom:24px"><svg width="29" height="29" viewBox="0 0 29 29"><rect width="29" height="29" fill="black"/><path d="M7.75 17.05v2.2c-.39.13-.75.04-1.1-.07C4.77 18.61 3.5 16.86 3.44 14.74c-.02-.73-.02-1.46 0-2.2.07-2.77 2.35-4.58 4.6-4.51 1.35.04 2.71-.02 4.06.01.5.01.87-.13 1.21-.52 1-.14 2.04-1.25 3.07-2.36.15-.16.29-.33.46-.46.85-.63 2.01-.16 2.18.88.03.21.03.43.03.65 0 2.36-.05 4.72.02 7.08.05 1.62-1.21 2.64-2.58 2.58-1.49-.07-2.98-.01-4.47-.01-.27 0-.53 0-.85 0v5.15c.51-.56.91-.99 1.31-1.42.28-.3.55-.6.83-.9.47-.5 1.04-.75 1.74-.74 1.46.02 2.93.01 4.39 0 1.7 0 2.54-.83 2.57-2.54 0-.46 0-.92 0-1.38 0-1.56-.4-2.15-1.9-2.7v-2.23c.51-.14.98.03 1.42.22 1.76.76 2.7 2.12 2.83 4.02.06.89.05 1.79 0 2.68-.14 2.67-2.47 4.39-4.46 4.29-1.41-.07-2.82.01-4.23-.02-.51-.01-.86.17-1.19.54-1.01 1.14-2.04 2.25-3.08 3.36-.23.25-.53.5-.84.6-.81.27-1.65-.31-1.79-1.19-.03-.21-.02-.43-.02-.65 0-2.31.06-4.61-.02-6.91-.05-1.56 1.15-2.65 2.57-2.59 1.52.06 3.04.02 4.56.01.26 0 .53-.02.83-.04v-5c-.23.2-.39.32-.53.46-.52.55-1.03 1.11-1.54 1.68-.48.54-1.06.81-1.79.8-1.41-.02-2.82-.01-4.23 0-.3 0-.6 0-.89.05-1.1.2-1.82 1.03-1.87 2.15-.02.7-.02 1.41 0 2.11.02 1.12.51 1.8 1.57 2.21.1.04.2.09.34.15z" fill="white"/></svg> <span style="font-size:20px;font-weight:700;vertical-align:middle;margin-left:8px">Zappy</span></div>
-<svg width="55" height="55" viewBox="0 0 55 55" style="margin-bottom:16px"><use href="#badge"/></svg>
-<div style="font-size:24px;font-weight:700;margin-bottom:8px">Payment confirmed</div>
-<p style="font-size:14px;color:var(--ink3);line-height:1.5">Your account is now active. Save your login code; you will need it to access your dashboard.</p>
+<div class="logo-row" id="logo-success"></div>
+<svg class="badge-icon" viewBox="0 0 55 55"><use href="#badge"/></svg>
+<div class="stitle">Payment confirmed</div>
+<p class="ssub">Your account is now active. Save your login code; you will need it to access your dashboard.</p>
 <div class="cbox"><div class="clbl">YOUR LOGIN CODE</div><div class="cval" id="success-code">--------</div></div>
+<p class="warning-txt">Screenshot this page or write down your code. Use it with your email to log in anytime.</p>
 </div>
-<div class="sbot"><p>Screenshot this page or write down your code. Use it with your email to log in anytime.</p></div>
+<button class="btn btn-lime" onclick="showView('view-login')">Go to login <svg class="arrow-icon" viewBox="0 0 19 14"><use href="#arrow"/></svg></button>
 </div>
-<button class="btn btn-l" onclick="showView('view-login')">Go to login <svg width="19" height="14" viewBox="0 0 19 14"><use href="#arrow"/></svg></button>
 </div>
 
 <!-- LOGIN -->
 <div class="view" id="view-login">
-<div class="logo" id="logo-login"></div>
+<div class="content">
+<div class="logo-row" id="logo-login"></div>
 <h2>Member portal</h2>
 <p class="sub">Enter your email and the login code shown after payment.</p>
 <div class="fcard">
 <div class="field"><label>Email address</label><input type="email" id="l-email" placeholder="tunde@example.com" autocomplete="email"></div>
-<div class="field"><label>Login code</label><input type="text" id="l-code" placeholder="K7BN4QTZ" maxlength="8" style="letter-spacing:3px;text-transform:uppercase;font-weight:700"></div>
+<div class="field"><label>Login code</label><input type="text" id="l-code" placeholder="K7BN4QTZ" maxlength="8" style="letter-spacing:2px;text-transform:uppercase"></div>
 </div>
-<button class="btn btn-l" id="btn-login" onclick="doLogin()">Login <svg width="19" height="14" viewBox="0 0 19 14"><use href="#arrow"/></svg></button>
+<button class="btn btn-lime" id="btn-login" onclick="doLogin()">Login <svg class="arrow-icon" viewBox="0 0 19 14"><use href="#arrow"/></svg></button>
 <div class="err" id="login-error"></div>
 <p class="lnk" onclick="showView('view-forgot')">Forgot your code?</p>
 <p class="lnk lnk-d" onclick="showView('view-plans')">New here? Create an account</p>
 </div>
+</div>
 
 <!-- FORGOT -->
 <div class="view" id="view-forgot">
-<div class="logo" id="logo-forgot"></div>
+<div class="content">
+<div class="logo-row" id="logo-forgot"></div>
 <h2>Reset login code</h2>
 <p class="sub">Enter your email and we will send a new code to your inbox.</p>
-<div class="fcard">
-<div class="field"><label>Email address</label><input type="email" id="fg-email" placeholder="tunde@example.com"></div>
-</div>
-<div id="forgot-success" style="display:none" class="ban ban-a" style="margin-top:12px">If this email is registered, a new code has been sent. Check your inbox.</div>
-<button class="btn btn-l" id="btn-forgot" onclick="doForgotCode()">Send new code <svg width="19" height="14" viewBox="0 0 19 14"><use href="#arrow"/></svg></button>
+<div class="fcard"><div class="field"><label>Email address</label><input type="email" id="fg-email" placeholder="tunde@example.com"></div></div>
+<div id="forgot-success" style="display:none" class="ban ban-a"><span class="body-txt">If this email is registered, a new code has been sent. Check your inbox.</span></div>
+<button class="btn btn-lime" id="btn-forgot" onclick="doForgotCode()">Send new code <svg class="arrow-icon" viewBox="0 0 19 14"><use href="#arrow"/></svg></button>
 <div class="err" id="forgot-error"></div>
 <p class="lnk lnk-d" onclick="showView('view-login')">Back to login</p>
+</div>
 </div>
 
 <!-- DASHBOARD -->
 <div class="view" id="view-dashboard">
-<div class="dh">
-<div><div class="dn" id="d-name">Hi, Tunde</div><div class="de" id="d-email"></div></div>
-<svg width="40" height="40" viewBox="0 0 40 40"><use href="#person"/></svg>
-</div>
-<div class="db">
-<span class="bp" id="d-plan-badge">Normal account</span>
-<span class="bs" id="d-status-badge">Active</span>
-</div>
+<div class="content">
+<div class="dh"><div><div class="dn" id="d-name">Hi, Tunde</div><div class="de" id="d-email"></div></div><div class="person-circle"><svg width="20" height="20" viewBox="10 10 20 20"><use href="#person"/></svg></div></div>
+<div class="db"><span class="bp" id="d-plan-badge">Normal account</span><span class="bs" id="d-status-badge">Active</span></div>
 <div id="d-banner"></div>
 <div class="sg">
-<div class="sb"><div class="sl">Days remaining</div><div class="sv" id="d-days">—</div><div class="ss" id="d-expires"></div></div>
-<div class="sb"><div class="sl">Contacts received</div><div class="sv" id="d-contacts">—</div><div class="ss">Total so far</div></div>
+<div class="sb" id="d-stat-days"><div class="sl">Days remaining</div><div class="sv" id="d-days">—</div><div class="ss" id="d-expires"></div></div>
+<div class="sb" id="d-stat-contacts"><div class="sl">Contacts received</div><div class="sv" id="d-contacts">—</div><div class="ss">Total so far</div></div>
 </div>
 <div id="d-fallback-banner"></div>
 <div id="d-download-section"></div>
@@ -227,123 +296,76 @@ input:focus,select:focus{border-color:var(--ink)}input::placeholder{color:#aaa}
 <div class="ir"><span class="il">Your niche</span><span class="iv" id="d-niche">—</span></div>
 <div class="ir" id="d-targets-row" style="display:none"><span class="il">Receiving from</span><span class="iv" id="d-targets">—</span></div>
 <div class="ir"><span class="il">Last drop</span><span class="iv" id="d-last-drop">—</span></div>
-<div class="ir"><span class="il">Next drop</span><span class="iv" id="d-next-drop">—</span></div>
+<div class="ir" id="d-next-row"><span class="il">Next drop</span><span class="iv" id="d-next-drop">—</span></div>
 </div>
 <div id="d-upgrade-section"></div>
-<button class="btn btn-l" onclick="goResubscribe()" id="btn-renew" style="display:none">Renew subscription <svg width="19" height="14" viewBox="0 0 19 14"><use href="#arrow"/></svg></button>
+<button class="btn btn-lime" onclick="goResubscribe()" id="btn-renew" style="display:none">Renew subscription <svg class="arrow-icon" viewBox="0 0 19 14"><use href="#arrow"/></svg></button>
 <p class="lnk" onclick="doLogout()">Log out</p>
+</div>
 </div>
 
 <!-- UPGRADE -->
 <div class="view" id="view-upgrade">
-<div class="logo" id="logo-upgrade"></div>
+<div class="content">
+<div class="logo-row" id="logo-upgrade"></div>
 <h2>Upgrade to Business</h2>
 <p class="sub">Choose up to 3 target industries to receive filtered contacts.</p>
 <div class="fcard">
-<div class="tt">Target industries</div>
-<div class="td">Choose which industries you want to receive contacts from.</div>
-<div class="field"><label>Target 1 <span class="h">(required)</span></label><select id="u-target1"><option value="">Select your industry</option></select></div>
-<div class="field"><label>Target 2 <span class="h">(optional)</span></label><select id="u-target2"><option value="">None</option></select></div>
-<div class="field"><label>Target 3 <span class="h">(optional)</span></label><select id="u-target3"><option value="">None</option></select></div>
+<div class="tt">Target industries</div><div class="td">Choose which industries you want to receive contacts from.</div>
+<div class="field"><label>Target 1 <span class="h">(required)</span></label><div class="select-wrap"><select id="u-target1"><option value="">Select your industry</option></select></div></div>
+<div class="field"><label>Target 2 <span class="h">(optional)</span></label><div class="select-wrap"><select id="u-target2"><option value="">None</option></select></div></div>
+<div class="field"><label>Target 3 <span class="h">(optional)</span></label><div class="select-wrap"><select id="u-target3"><option value="">None</option></select></div></div>
 </div>
-<button class="btn btn-l" id="btn-upgrade" onclick="handleUpgrade()">Continue to pay <svg width="19" height="14" viewBox="0 0 19 14"><use href="#arrow"/></svg></button>
+<button class="btn btn-lime" id="btn-upgrade" onclick="handleUpgrade()">Continue to pay <svg class="arrow-icon" viewBox="0 0 19 14"><use href="#arrow"/></svg></button>
 <div class="err" id="upgrade-error"></div>
 <p class="lnk lnk-d" onclick="showView('view-dashboard')">Back to dashboard</p>
+</div>
 </div>
 
 </div>
 <script>
 var API_URL='https://script.google.com/macros/s/AKfycbwwY4ylbR7X1EJadGkpJQyiETkBuj0qlM65_VPpdgGb5PVnKHqAp_ZS5jHSR5U7zcec/exec';
-var selectedPlan='',currentUser=null,dashboardData=null;
+var selectedPlan='',currentUser=null;
 
-// Logo SVG (reused across views)
-var LOGO_SVG='<svg width="98" height="29" viewBox="0 0 98 29" fill="none"><rect width="29" height="29" fill="#C8FF00"/><path d="M7.75 17.05v2.2c-.39.13-.75.04-1.1-.07C4.77 18.61 3.5 16.86 3.44 14.74c-.02-.73-.02-1.46 0-2.2.07-2.77 2.35-4.58 4.6-4.51 1.35.04 2.71-.02 4.06.01.5.01.87-.13 1.21-.52 1-.14 2.04-1.25 3.07-2.36.15-.16.29-.33.46-.46.85-.63 2.01-.16 2.18.88.03.21.03.43.03.65 0 2.36-.05 4.72.02 7.08.05 1.62-1.21 2.64-2.58 2.58-1.49-.07-2.98-.01-4.47-.01-.27 0-.53 0-.85 0v5.15c.51-.56.91-.99 1.31-1.42.28-.3.55-.6.83-.9.47-.5 1.04-.75 1.74-.74 1.46.02 2.93.01 4.39 0 1.7 0 2.54-.83 2.57-2.54 0-.46 0-.92 0-1.38 0-1.56-.4-2.15-1.9-2.7v-2.23c.51-.14.98.03 1.42.22 1.76.76 2.7 2.12 2.83 4.02.06.89.05 1.79 0 2.68-.14 2.67-2.47 4.39-4.46 4.29-1.41-.07-2.82.01-4.23-.02-.51-.01-.86.17-1.19.54-1.01 1.14-2.04 2.25-3.08 3.36-.23.25-.53.5-.84.6-.81.27-1.65-.31-1.79-1.19-.03-.21-.02-.43-.02-.65 0-2.31.06-4.61-.02-6.91-.05-1.56 1.15-2.65 2.57-2.59 1.52.06 3.04.02 4.56.01.26 0 .53-.02.83-.04v-5c-.23.2-.39.32-.53.46-.52.55-1.03 1.11-1.54 1.68-.48.54-1.06.81-1.79.8-1.41-.02-2.82-.01-4.23 0-.3 0-.6 0-.89.05-1.1.2-1.82 1.03-1.87 2.15-.02.7-.02 1.41 0 2.11.02 1.12.51 1.8 1.57 2.21.1.04.2.09.34.15z" fill="black"/><path d="M39.4 19.09h6.24V21h-8.85v-1.72l6.22-9.8h-6.22V7.57h8.85v1.72l-6.24 9.8zM47.31 15.63c0-1.07.22-2.02.66-2.84.45-.82 1.06-1.46 1.82-1.91.77-.46 1.62-.7 2.55-.7.84 0 1.57.17 2.18.5.63.32 1.13.73 1.51 1.22v-1.55h2.22V21h-2.22v-1.58c-.37.5-.88.92-1.53 1.25-.64.34-1.37.5-2.2.5-.91 0-1.75-.23-2.51-.7-.76-.48-1.37-1.13-1.82-1.97-.44-.85-.66-1.81-.66-2.87zm8.71.04c0-.73-.15-1.37-.46-1.91-.3-.54-.69-.95-1.18-1.24-.49-.28-1.02-.42-1.59-.42s-1.1.14-1.58.42c-.49.27-.89.68-1.2 1.22-.3.53-.44 1.16-.44 1.9s.15 1.38.44 1.93c.31.55.71.98 1.2 1.28.49.28 1.01.42 1.58.42s1.1-.14 1.59-.42c.49-.28.88-.7 1.18-1.24.31-.55.46-1.19.46-1.93zm7.32-3.75c.37-.49.88-.9 1.53-1.24.64-.33 1.37-.5 2.18-.5.93 0 1.77.23 2.53.7.77.45 1.38 1.09 1.82 1.91.44.82.66 1.77.66 2.84s-.22 2.02-.66 2.88c-.44.84-1.05 1.5-1.82 1.97-.76.46-1.6.7-2.53.7-.81 0-1.53-.16-2.16-.48-.63-.33-1.15-.75-1.55-1.24v6.61h-2.2V10.35h2.2v1.57zm6.47 3.71c0-.73-.15-1.37-.46-1.9-.3-.54-.7-.95-1.2-1.24-.49-.28-1.02-.42-1.58-.42-.56 0-1.08.14-1.58.42-.49.28-.89.7-1.2 1.24-.3.54-.44 1.17-.44 1.9 0 .73.15 1.38.44 1.93.31.55.71.98 1.2 1.28.49.28 1.02.42 1.58.42s1.1-.14 1.58-.42c.5-.3.9-.72 1.2-1.28.31-.55.46-1.19.46-1.93zm6.52-3.71c.37-.49.88-.9 1.53-1.24.64-.33 1.37-.5 2.18-.5.93 0 1.77.23 2.53.7.77.45 1.38 1.09 1.82 1.91.44.82.66 1.77.66 2.84s-.22 2.02-.66 2.88c-.44.84-1.05 1.5-1.82 1.97-.76.46-1.6.7-2.53.7-.81 0-1.53-.16-2.16-.48-.63-.33-1.15-.75-1.55-1.24v6.61h-2.2V10.35h2.2v1.57zm6.47 3.71c0-.73-.15-1.37-.46-1.9-.3-.54-.7-.95-1.2-1.24-.49-.28-1.02-.42-1.58-.42-.56 0-1.08.14-1.58.42-.49.28-.89.7-1.2 1.24-.3.54-.44 1.17-.44 1.9 0 .73.15 1.38.44 1.93.31.55.71.98 1.2 1.28.49.28 1.02.42 1.58.42s1.1-.14 1.58-.42c.5-.3.9-.72 1.2-1.28.31-.55.46-1.19.46-1.93zM96.91 10.35l-6.53 15.65h-2.28l2.16-5.18-4.19-10.47h2.45l3 8.11 3.11-8.11h2.28z" fill="black"/></svg>';
+var LOGO_ICON='<svg width="29" height="29" viewBox="0 0 29 29"><rect width="29" height="29" fill="#C8FF00"/><path d="M7.75 17.05v2.2c-.39.13-.75.04-1.1-.07C4.77 18.61 3.5 16.86 3.44 14.74c-.02-.73-.02-1.46 0-2.2.07-2.77 2.35-4.58 4.6-4.51 1.35.04 2.71-.02 4.06.01.5.01.87-.13 1.21-.52 1-.14 2.04-1.25 3.07-2.36.15-.16.29-.33.46-.46.85-.63 2.01-.16 2.18.88.03.21.03.43.03.65 0 2.36-.05 4.72.02 7.08.05 1.62-1.21 2.64-2.58 2.58-1.49-.07-2.98-.01-4.47-.01-.27 0-.53 0-.85 0v5.15c.51-.56.91-.99 1.31-1.42.28-.3.55-.6.83-.9.47-.5 1.04-.75 1.74-.74 1.46.02 2.93.01 4.39 0 1.7 0 2.54-.83 2.57-2.54 0-.46 0-.92 0-1.38 0-1.56-.4-2.15-1.9-2.7v-2.23c.51-.14.98.03 1.42.22 1.76.76 2.7 2.12 2.83 4.02.06.89.05 1.79 0 2.68-.14 2.67-2.47 4.39-4.46 4.29-1.41-.07-2.82.01-4.23-.02-.51-.01-.86.17-1.19.54-1.01 1.14-2.04 2.25-3.08 3.36-.23.25-.53.5-.84.6-.81.27-1.65-.31-1.79-1.19-.03-.21-.02-.43-.02-.65 0-2.31.06-4.61-.02-6.91-.05-1.56 1.15-2.65 2.57-2.59 1.52.06 3.04.02 4.56.01.26 0 .53-.02.83-.04v-5c-.23.2-.39.32-.53.46-.52.55-1.03 1.11-1.54 1.68-.48.54-1.06.81-1.79.8-1.41-.02-2.82-.01-4.23 0-.3 0-.6 0-.89.05-1.1.2-1.82 1.03-1.87 2.15-.02.7-.02 1.41 0 2.11.02 1.12.51 1.8 1.57 2.21.1.04.2.09.34.15z" fill="black"/></svg>';
+var LOGO_TEXT='<span style="font-size:20px;font-weight:700;letter-spacing:-0.3px;color:#141519">Zappy</span>';
+var LOGO_TEXT_WHITE='<span style="font-size:20px;font-weight:700;letter-spacing:-0.3px;color:#fff">Zappy</span>';
+var LOGO_ICON_BLACK='<svg width="29" height="29" viewBox="0 0 29 29"><rect width="29" height="29" fill="black"/><path d="M7.75 17.05v2.2c-.39.13-.75.04-1.1-.07C4.77 18.61 3.5 16.86 3.44 14.74c-.02-.73-.02-1.46 0-2.2.07-2.77 2.35-4.58 4.6-4.51 1.35.04 2.71-.02 4.06.01.5.01.87-.13 1.21-.52 1-.14 2.04-1.25 3.07-2.36.15-.16.29-.33.46-.46.85-.63 2.01-.16 2.18.88.03.21.03.43.03.65 0 2.36-.05 4.72.02 7.08.05 1.62-1.21 2.64-2.58 2.58-1.49-.07-2.98-.01-4.47-.01-.27 0-.53 0-.85 0v5.15c.51-.56.91-.99 1.31-1.42.28-.3.55-.6.83-.9.47-.5 1.04-.75 1.74-.74 1.46.02 2.93.01 4.39 0 1.7 0 2.54-.83 2.57-2.54 0-.46 0-.92 0-1.38 0-1.56-.4-2.15-1.9-2.7v-2.23c.51-.14.98.03 1.42.22 1.76.76 2.7 2.12 2.83 4.02.06.89.05 1.79 0 2.68-.14 2.67-2.47 4.39-4.46 4.29-1.41-.07-2.82.01-4.23-.02-.51-.01-.86.17-1.19.54-1.01 1.14-2.04 2.25-3.08 3.36-.23.25-.53.5-.84.6-.81.27-1.65-.31-1.79-1.19-.03-.21-.02-.43-.02-.65 0-2.31.06-4.61-.02-6.91-.05-1.56 1.15-2.65 2.57-2.59 1.52.06 3.04.02 4.56.01.26 0 .53-.02.83-.04v-5c-.23.2-.39.32-.53.46-.52.55-1.03 1.11-1.54 1.68-.48.54-1.06.81-1.79.8-1.41-.02-2.82-.01-4.23 0-.3 0-.6 0-.89.05-1.1.2-1.82 1.03-1.87 2.15-.02.7-.02 1.41 0 2.11.02 1.12.51 1.8 1.57 2.21.1.04.2.09.34.15z" fill="white"/></svg>';
 
-// Inject logos
-['logo-plans','logo-form','logo-login','logo-forgot','logo-upgrade'].forEach(function(id){
-  var el=document.getElementById(id);if(el)el.innerHTML=LOGO_SVG;
-});
+['logo-plans','logo-form','logo-login','logo-forgot','logo-upgrade'].forEach(function(id){var el=document.getElementById(id);if(el)el.innerHTML=LOGO_ICON+LOGO_TEXT});
+var sLogo=document.getElementById('logo-success');if(sLogo)sLogo.innerHTML=LOGO_ICON_BLACK+LOGO_TEXT_WHITE;
 
-// Init
 (function(){
   var h=window.location.hash,u=window.location.href;
-  if(h.indexOf('success')>-1||u.indexOf('#success')>-1){
-    showView('view-success');
-    if(window.history.replaceState)window.history.replaceState(null,'',window.location.pathname);
-    loadConfig();
-    var e=sessionStorage.getItem('elance_email');
-    if(e)pollForActivation(e);
-    return;
-  }
+  if(h.indexOf('success')>-1||u.indexOf('#success')>-1){showView('view-success');if(window.history.replaceState)window.history.replaceState(null,'',window.location.pathname);loadConfig();var e=sessionStorage.getItem('elance_email');if(e)pollForActivation(e);return}
   if(h.indexOf('login')>-1){loadConfig(function(){showView('view-login')});return}
   loadConfig(function(){showView('view-plans')});
 })();
 
 function loadConfig(cb){apiGet('config',{},function(d){if(d.success)populateNicheDropdowns(d.niches);if(cb)cb()})}
-
-function apiGet(action,params,cb){
-  params.action=action;
-  var q=Object.keys(params).map(function(k){return encodeURIComponent(k)+'='+encodeURIComponent(params[k])}).join('&');
-  fetch(API_URL+'?'+q).then(function(r){return r.json()}).then(cb).catch(function(){cb({success:false,reason:'Connection error. Please try again.'})});
-}
-function apiPost(data,cb){
-  fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify(data)}).then(function(r){return r.json()}).then(cb).catch(function(){cb({success:false,reason:'Connection error. Please try again.'})});
-}
-
-function populateNicheDropdowns(niches){
-  ['f-niche','f-target1','f-target2','f-target3','u-target1','u-target2','u-target3'].forEach(function(id){
-    var el=document.getElementById(id);if(!el)return;
-    var ph=el.options[0].text;el.innerHTML='<option value="">'+ph+'</option>';
-    niches.forEach(function(n){var o=document.createElement('option');o.value=n;o.textContent=n;el.appendChild(o)});
-  });
-}
-
-function selectPlan(plan){
-  selectedPlan=plan;
-  document.getElementById('plan-normal').classList.toggle('sel',plan==='normal');
-  document.getElementById('plan-business').classList.toggle('sel',plan==='business');
-  document.getElementById('target-section').style.display=plan==='business'?'block':'none';
-  showView('view-form');
-}
-
+function apiGet(a,p,cb){p.action=a;var q=Object.keys(p).map(function(k){return encodeURIComponent(k)+'='+encodeURIComponent(p[k])}).join('&');fetch(API_URL+'?'+q).then(function(r){return r.json()}).then(cb).catch(function(){cb({success:false,reason:'Connection error.'})})}
+function apiPost(d,cb){fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify(d)}).then(function(r){return r.json()}).then(cb).catch(function(){cb({success:false,reason:'Connection error.'})})}
+function populateNicheDropdowns(n){['f-niche','f-target1','f-target2','f-target3','u-target1','u-target2','u-target3'].forEach(function(id){var el=document.getElementById(id);if(!el)return;var ph=el.options[0].text;el.innerHTML='<option value="">'+ph+'</option>';n.forEach(function(v){var o=document.createElement('option');o.value=v;o.textContent=v;el.appendChild(o)})})}
+function selectPlan(p){selectedPlan=p;document.getElementById('target-section').style.display=p==='business'?'block':'none';showView('view-form')}
 function handleSignup(){
-  var f=val('f-first'),l=val('f-last'),u=val('f-username'),w=val('f-whatsapp'),e=val('f-email'),n=val('f-niche');
-  var t1=val('f-target1'),t2=val('f-target2'),t3=val('f-target3');
+  var f=val('f-first'),l=val('f-last'),u=val('f-username'),w=val('f-whatsapp'),e=val('f-email'),n=val('f-niche'),t1=val('f-target1'),t2=val('f-target2'),t3=val('f-target3');
   if(!f||!l||!u||!w||!e||!n){showError('form-error','Please fill in all required fields.');return}
   if(selectedPlan==='business'&&!t1){showError('form-error','Please select at least one target industry.');return}
   if(!e.includes('@')){showError('form-error','Please enter a valid email address.');return}
   setBtn('btn-signup',true,'Saving...');hideError('form-error');
-  apiPost({action:'signup',firstName:f,lastName:l,username:u,whatsapp:w,email:e,ownNiche:n,
-    target1:selectedPlan==='business'?t1:'',target2:selectedPlan==='business'?t2:'',target3:selectedPlan==='business'?t3:'',plan:selectedPlan
-  },function(r){
-    setBtn('btn-signup',false,'Continue to pay');
-    if(r.success){sessionStorage.setItem('elance_email',e.toLowerCase().trim());window.location.href=r.paystackUrl}
-    else showError('form-error',r.reason||'Something went wrong.');
-  });
+  apiPost({action:'signup',firstName:f,lastName:l,username:u,whatsapp:w,email:e,ownNiche:n,target1:selectedPlan==='business'?t1:'',target2:selectedPlan==='business'?t2:'',target3:selectedPlan==='business'?t3:'',plan:selectedPlan},function(r){setBtn('btn-signup',false,'Continue to pay');if(r.success){sessionStorage.setItem('elance_email',e.toLowerCase().trim());window.location.href=r.paystackUrl}else showError('form-error',r.reason||'Something went wrong.')});
 }
-
 function doLogin(){
   var e=val('l-email'),c=document.getElementById('l-code').value.trim().toUpperCase();
   if(!e||!c){showError('login-error','Enter both your email and login code.');return}
   setBtn('btn-login',true,'Checking...');hideError('login-error');
-  apiGet('login',{email:e,code:c},function(r){
-    setBtn('btn-login',false,'Login');
-    if(r.success){currentUser={email:e,code:c};dashboardData=r.data;renderDashboard(r.data)}
-    else showError('login-error',r.reason||'Invalid email or code.');
-  });
+  apiGet('login',{email:e,code:c},function(r){setBtn('btn-login',false,'Login');if(r.success){currentUser={email:e,code:c};renderDashboard(r.data)}else showError('login-error',r.reason||'Invalid email or code.')});
 }
-
 function doForgotCode(){
-  var e=val('fg-email');
-  if(!e||!e.includes('@')){showError('forgot-error','Please enter a valid email.');return}
+  var e=val('fg-email');if(!e||!e.includes('@')){showError('forgot-error','Please enter a valid email.');return}
   setBtn('btn-forgot',true,'Sending...');hideError('forgot-error');
-  apiGet('forgot_code',{email:e},function(r){
-    setBtn('btn-forgot',false,'Send new code');
-    if(r.success)document.getElementById('forgot-success').style.display='block';
-    else showError('forgot-error',r.reason||'Something went wrong.');
-  });
+  apiGet('forgot_code',{email:e},function(r){setBtn('btn-forgot',false,'Send new code');if(r.success)document.getElementById('forgot-success').style.display='block';else showError('forgot-error',r.reason||'Something went wrong.')});
 }
-
 function renderDashboard(d){
   showView('view-dashboard');
   document.getElementById('d-name').textContent='Hi, '+d.firstName;
@@ -354,92 +376,37 @@ function renderDashboard(d){
   document.getElementById('d-niche').textContent=d.ownNiche;
   document.getElementById('d-last-drop').textContent=d.lastDrop;
   document.getElementById('d-next-drop').textContent=d.nextDrop;
-
-  var sb=document.getElementById('d-status-badge');
-  sb.textContent=d.status==='ACTIVE'?'Active':'INACTIVE';
-  sb.className='bs '+(d.status==='ACTIVE'?'bs-a':'bs-i');
-
-  var pb=document.getElementById('d-plan-badge');
-  pb.textContent=d.plan==='business'?'Business account':'Normal account';
-
-  if(d.plan==='business'){
-    var tgts=[d.target1,d.target2,d.target3].filter(Boolean);
-    if(tgts.length>0){document.getElementById('d-targets').textContent=tgts.join(', ');document.getElementById('d-targets-row').style.display='flex'}
-  }else{document.getElementById('d-targets-row').style.display='none'}
-
+  var sb=document.getElementById('d-status-badge');sb.textContent=d.status==='ACTIVE'?'Active':'INACTIVE';sb.className='bs '+(d.status==='ACTIVE'?'bs-a':'bs-i');
+  var pb=document.getElementById('d-plan-badge');pb.textContent=d.plan==='business'?'Business account':'Normal account';
+  pb.className='bp'+(d.status!=='ACTIVE'?' bp-dark':'');
+  if(d.plan==='business'){var tg=[d.target1,d.target2,d.target3].filter(Boolean);if(tg.length>0){document.getElementById('d-targets').textContent=tg.join(', ');document.getElementById('d-targets-row').style.display='flex'}}else{document.getElementById('d-targets-row').style.display='none'}
   var ban=document.getElementById('d-banner');ban.innerHTML='';
   if(d.status==='ACTIVE'){ban.innerHTML='<div class="dbr"><strong>Next drop — '+d.nextDrop+'</strong><span>New contacts ready for download</span></div>'}
-  else{ban.innerHTML='<div class="ban ban-r" style="margin-top:24px"><strong>Your membership expired</strong>You are no longer appearing in contact drops. Renew to become visible again.</div>'}
-
+  else{ban.innerHTML='<div class="ban ban-r"><strong>Your membership expired</strong><span class="body-txt">You are no longer appearing in contact drops. Renew to become visible again.</span></div>'}
+  var statDays=document.getElementById('d-stat-days');var statContacts=document.getElementById('d-stat-contacts');
+  if(d.status!=='ACTIVE'){statDays.classList.add('sb-red')}else{statDays.classList.remove('sb-red')}
   var fb=document.getElementById('d-fallback-banner');fb.innerHTML='';
-  if(d.lastDropFallback&&d.status==='ACTIVE'){fb.innerHTML='<div class="ban ban-a"><strong>About your last drop</strong>Your target niches are still growing, so we included contacts from across the network to make sure you got a full drop.</div>'}
-
+  if(d.lastDropFallback&&d.status==='ACTIVE'){fb.innerHTML='<div class="ban ban-a"><strong>About your last drop</strong><span class="body-txt">Your target niches are still growing, so we included contacts from across the network to make sure you got a full drop.</span></div>'}
   var dl=document.getElementById('d-download-section');
-  if(d.status==='ACTIVE'&&d.contactsReceived>0){
-    dl.innerHTML='<button class="btn btn-l" onclick="downloadVcf()" id="btn-download">Download latest contacts <svg width="18" height="15" viewBox="0 0 18 15"><use href="#dl"/></svg></button>';
-  }else if(d.status==='ACTIVE'){
-    dl.innerHTML='<div class="ban ban-a"><strong>No drops yet</strong>Your first contact drop arrives on '+d.nextDrop+'.</div>';
-  }else{dl.innerHTML=''}
-
+  if(d.status==='ACTIVE'&&d.contactsReceived>0){dl.innerHTML='<button class="btn btn-lime" onclick="downloadVcf()" id="btn-download">Download latest contacts <svg width="18" height="16" viewBox="0 0 18 16"><path d="M0 0h18v2H0zM4 4h10v2H4zM7 8h4v2H7zM2 12h14v2H2zM0 14h2v2H0zM16 14h2v2h-2z" fill="black"/></svg></button>'}
+  else if(d.status==='ACTIVE'){dl.innerHTML='<div class="ban ban-a"><strong>No drops yet</strong><span class="body-txt">Your first contact drop arrives on '+d.nextDrop+'.</span></div>'}
+  else{dl.innerHTML=''}
   var up=document.getElementById('d-upgrade-section');
-  if(d.plan==='normal'&&d.status==='ACTIVE'){up.innerHTML='<button class="btn btn-o" onclick="goUpgrade()">Upgrade to Business <svg width="19" height="14" viewBox="0 0 19 14"><use href="#arrow"/></svg></button>'}
-  else{up.innerHTML=''}
-
+  if(d.plan==='normal'&&d.status==='ACTIVE'){up.innerHTML='<button class="btn btn-outline" onclick="goUpgrade()">Upgrade to Business <svg class="arrow-icon" viewBox="0 0 19 14"><use href="#arrow"/></svg></button>'}else{up.innerHTML=''}
+  document.getElementById('d-next-row').style.display=d.status==='ACTIVE'?'flex':'none';
   document.getElementById('btn-renew').style.display=d.status==='INACTIVE'?'flex':'none';
 }
-
-function downloadVcf(){
-  if(!currentUser)return;
-  setBtn('btn-download',true,'Generating...');
-  apiGet('download_vcf',{email:currentUser.email,code:currentUser.code},function(r){
-    setBtn('btn-download',false,'Download latest contacts');
-    if(r.success){
-      var b=new Blob([r.vcfContent],{type:'text/vcard'});var u=URL.createObjectURL(b);
-      var a=document.createElement('a');a.href=u;a.download='Zappy-Contacts.vcf';a.click();URL.revokeObjectURL(u);
-    }else{alert(r.reason||'Could not generate contacts.')}
-  });
-}
-
+function downloadVcf(){if(!currentUser)return;setBtn('btn-download',true,'Generating...');apiGet('download_vcf',{email:currentUser.email,code:currentUser.code},function(r){setBtn('btn-download',false,'Download latest contacts');if(r.success){var b=new Blob([r.vcfContent],{type:'text/vcard'});var u=URL.createObjectURL(b);var a=document.createElement('a');a.href=u;a.download='Zappy-Contacts.vcf';a.click();URL.revokeObjectURL(u)}else{alert(r.reason||'Could not generate contacts.')}})}
 function goUpgrade(){showView('view-upgrade')}
-function handleUpgrade(){
-  var t1=val('u-target1');
-  if(!t1){showError('upgrade-error','Please select at least one target industry.');return}
-  setBtn('btn-upgrade',true,'Processing...');hideError('upgrade-error');
-  apiPost({action:'upgrade',email:currentUser.email,code:currentUser.code,target1:t1,target2:val('u-target2'),target3:val('u-target3')},function(r){
-    setBtn('btn-upgrade',false,'Continue to pay');
-    if(r.success){sessionStorage.setItem('elance_email',currentUser.email.toLowerCase().trim());window.location.href=r.paystackUrl}
-    else showError('upgrade-error',r.reason||'Something went wrong.');
-  });
-}
-
-function pollForActivation(email){
-  var attempts=0,max=20;
-  var el=document.getElementById('success-code');el.textContent='Verifying...';
-  var iv=setInterval(function(){
-    attempts++;
-    apiGet('check_activation',{email:email},function(r){
-      if(r.activated){clearInterval(iv);el.textContent=r.loginCode;sessionStorage.removeItem('elance_email')}
-      else if(attempts>=max){clearInterval(iv);el.textContent='--------';
-        var box=document.querySelector('.sbot');
-        if(box)box.innerHTML+='<p style="color:var(--amber);margin-top:8px">Taking longer than expected. Use "Forgot your code?" on the login page.</p>';
-        sessionStorage.removeItem('elance_email');
-      }
-    });
-  },3000);
-}
-
+function handleUpgrade(){var t1=val('u-target1');if(!t1){showError('upgrade-error','Please select at least one target industry.');return}setBtn('btn-upgrade',true,'Processing...');hideError('upgrade-error');apiPost({action:'upgrade',email:currentUser.email,code:currentUser.code,target1:t1,target2:val('u-target2'),target3:val('u-target3')},function(r){setBtn('btn-upgrade',false,'Continue to pay');if(r.success){sessionStorage.setItem('elance_email',currentUser.email.toLowerCase().trim());window.location.href=r.paystackUrl}else showError('upgrade-error',r.reason||'Something went wrong.')})}
+function pollForActivation(email){var att=0,mx=20;var el=document.getElementById('success-code');el.textContent='Verifying...';var iv=setInterval(function(){att++;apiGet('check_activation',{email:email},function(r){if(r.activated){clearInterval(iv);el.textContent=r.loginCode;sessionStorage.removeItem('elance_email')}else if(att>=mx){clearInterval(iv);el.textContent='--------';var box=document.querySelector('.warning-txt');if(box)box.innerHTML+='<br><br>Taking longer than expected. Use "Forgot your code?" on the login page.';sessionStorage.removeItem('elance_email')}})},3000)}
 function showView(id){document.querySelectorAll('.view').forEach(function(v){v.classList.remove('active')});document.getElementById(id).classList.add('active');window.scrollTo(0,0)}
-function doLogout(){currentUser=null;dashboardData=null;document.getElementById('l-email').value='';document.getElementById('l-code').value='';showView('view-plans')}
+function doLogout(){currentUser=null;document.getElementById('l-email').value='';document.getElementById('l-code').value='';showView('view-plans')}
 function goResubscribe(){showView('view-plans')}
 function val(id){return document.getElementById(id).value.trim()}
-function showError(id,msg){var e=document.getElementById(id);e.textContent=msg;e.style.display='block'}
+function showError(id,m){var e=document.getElementById(id);e.textContent=m;e.style.display='block'}
 function hideError(id){document.getElementById(id).style.display='none'}
-function setBtn(id,dis,txt){var b=document.getElementById(id);if(!b)return;b.disabled=dis;if(dis)b.innerHTML='<span class="spinner"></span>'+txt;else{var arrow='<svg width="19" height="14" viewBox="0 0 19 14"><use href="#arrow"/></svg>';b.innerHTML=txt+' '+arrow}}
-
-document.addEventListener('keydown',function(e){
-  if(e.key!=='Enter')return;var a=document.querySelector('.view.active');if(!a)return;
-  if(a.id==='view-login')doLogin();if(a.id==='view-form')handleSignup();if(a.id==='view-forgot')doForgotCode();
-});
+function setBtn(id,dis,txt){var b=document.getElementById(id);if(!b)return;b.disabled=dis;if(dis)b.innerHTML='<span class="spinner"></span>'+txt;else b.innerHTML=txt+' <svg class="arrow-icon" viewBox="0 0 19 14"><use href="#arrow"/></svg>'}
+document.addEventListener('keydown',function(e){if(e.key!=='Enter')return;var a=document.querySelector('.view.active');if(!a)return;if(a.id==='view-login')doLogin();if(a.id==='view-form')handleSignup();if(a.id==='view-forgot')doForgotCode()});
 </script>
-</body>
-</html>
+</body></html>
